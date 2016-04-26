@@ -1,9 +1,12 @@
 package com.apeelingtech.game.display;
 
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +17,7 @@ import com.apeelingtech.game.display.gamestates.Gamescreen;
 import com.apeelingtech.game.display.gamestates.Startstate;
 import com.apeelingtech.game.display.gui.GUI;
 
-public class Display {
+public class Display implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
 	
 	public List<GameState> gameStates = new ArrayList<GameState>();
 	private Game game;
@@ -32,6 +35,10 @@ public class Display {
 		startState = new Startstate(game, new GUI(this), this);
 		add(startState);
 		currentGameState = gameStates.get(0);
+		game.addKeyListener(this);
+		game.addMouseListener(this);
+		game.addMouseMotionListener(this);
+		game.addMouseWheelListener(this);
 	}
 	
 	public void add(GameState gs) {
@@ -80,6 +87,50 @@ public class Display {
 	
 	public void addKeyListener(KeyListener listener) {
 		game.addKeyListener(listener);
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
+	
+	@Override
+	public void mousePressed(MouseEvent e) {
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent e) {
+	}
+	
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+	
+	@Override
+	public void mouseExited(MouseEvent e) {
+	}
+	
+		@Override
+	public void mouseDragged(MouseEvent e) {
+	}
+	
+	@Override
+	public void mouseMoved(MouseEvent e) {
+	}
+	
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+	}
+	
+	@Override
+	public void keyReleased(KeyEvent e) {
 	}
 	
 }
