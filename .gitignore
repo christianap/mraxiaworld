@@ -1,2 +1,9 @@
-build/*
-.vscode/*
+build/
+.vscode/
+.gradle/
+*.iml
+.idea
+*.class
+.classpath
+.project
+*.swp
