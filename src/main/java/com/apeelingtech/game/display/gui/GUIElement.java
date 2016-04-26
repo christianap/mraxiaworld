@@ -8,16 +8,27 @@ import com.apeelingtech.game.Game;
 
 public abstract class GUIElement {
 	
-	protected GUI gui;
 	protected Rectangle bounds;
 	protected BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_3BYTE_BGR);
+	protected boolean hidden = false;
 	
 	public GUIElement(int x, int y, int width, int height) {
 		bounds = new Rectangle(x, y, width, height);
-		// this.gui = gui;
 	}
 	
 	public abstract void render(Graphics2D g);
+	
+	public final boolean isHidden() {
+		return hidden;
+	}
+	
+	public final void hide() {
+		hidden = true;
+	}
+	
+	public final void show() {
+		hidden = false;
+	}
 	
 	public final int getX() {
 		return bounds.x;

@@ -15,16 +15,17 @@ public class GUIField extends GUIElement implements IClickable, IKeyable {
 	private boolean focus = false;
 	private int time;
 	private boolean drawLine = false;
-	private String text = "Test";
-	private int textLocation = 2;
+	private String text;
+	private int textLocation = 0;
 	public int charHeight;
 	public int charWidth;
 	
 	private Font font = new Font("Courier", Font.PLAIN, 25);
 	public Rectangle2D stringBounds;
 	
-	public GUIField(int x, int y, int width, int height) {
+	public GUIField(String text, int x, int y, int width, int height) {
 		super(x, y, width, height);
+		this.text = text;
 		initFont(text);
 	}
 	

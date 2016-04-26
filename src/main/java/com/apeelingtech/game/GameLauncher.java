@@ -38,14 +38,13 @@ public class GameLauncher extends Applet {
         game.setPreferredSize(Game.DIMENSIONS);
 
         game.frame = new JFrame(Game.NAME);
+        game.frame.setResizable(false);
 
-        game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.frame.setLayout(new BorderLayout());
-
         game.frame.add(game, BorderLayout.CENTER);
         game.frame.pack();
 
-        game.frame.setResizable(false);
+        game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.frame.setLocationRelativeTo(null);
         game.frame.setVisible(true);
 

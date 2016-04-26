@@ -10,10 +10,12 @@ import com.apeelingtech.game.display.Display;
 import com.apeelingtech.game.display.gui.ButtonAction;
 import com.apeelingtech.game.display.gui.GUI;
 import com.apeelingtech.game.display.gui.GUIButton;
+import com.apeelingtech.game.display.gui.GUIRadioButton;
 import com.apeelingtech.game.display.gui.GUIField;
 import com.apeelingtech.game.display.gui.GUIImage;
 import com.apeelingtech.game.display.gui.GUIText;
 import com.apeelingtech.game.display.gui.GameGUI;
+import com.apeelingtech.game.display.gui.GUIGroup;
 
 public class SetupState extends GameState {
 	
@@ -65,6 +67,10 @@ public class SetupState extends GameState {
 	private GUIText title;
 	private GUIButton prevChar;
 	private GUIButton nextChar;
+	private GUIRadioButton localRadioButton;
+	private GUIRadioButton serverRadioButton;
+	private GUIRadioButton connectRadioButton;
+	private GUIGroup gameplayTypeGroup;
 	private GUIButton playButton;
 	private GUIButton backButton;
 	private GUIText shirtColorText;
@@ -135,9 +141,29 @@ public class SetupState extends GameState {
 		gui.add(nextChar);
 		
 		// 3 Radio Buttons in group for whether starting server, connecting to server, or local play
-		
-		
-		// Textbox for username
+		localRadioButton = new GUIRadioButton("Local Gameplay", Color.CYAN, 300, 127);
+		serverRadioButton = new GUIRadioButton("Create Server", Color.CYAN, 300, 152);
+		connectRadioButton = new GUIRadioButton("Connect to server", Color.CYAN, 300, 177);
+		GUIField ipAddress = new GUIField("IP Address", 300, 207, connectRadioButton.getWidth(), 30);
+		ipAddress.hide();
+		gui.add(ipAddress); // TODO: Add ipAddress to group in future!
+		connectRadioButton.addAction(new ButtonAction() {
+			@Override
+			public void action(MouseEvent e) {
+				ipAddress.show();
+			}
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExit(MouseEvent e) {
+			}
+		});
+		gameplayTypeGroup = new GUIGroup("Gameplay Type", Color.CYAN, 22, 300, 100, connectRadioButton.getWidth(), 100, localRadioButton, serverRadioButton, connectRadioButton);
+		gameplayTypeGroup.enable(0);
+		gui.add(gameplayTypeGroup);
 		
 		backButton = new GUIButton("Back", "Times New Roman", Font.BOLD, true, 10, Game.HEIGHT * Game.SCALE - 40, 80, 30);
 		backButton.setColors(new Color(220, 0, 0), new Color(120, 0, 0), Color.CYAN);
@@ -289,7 +315,7 @@ public class SetupState extends GameState {
 		});
 		gui.add(nextSkinColor);
 		
-		username = new GUIField(20, 20, 100, 30);
+		username = new GUIField("username", 50, 264, 164, 30);
 		gui.add(username);
 	}
 	

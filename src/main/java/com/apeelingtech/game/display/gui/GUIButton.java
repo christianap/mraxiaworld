@@ -54,7 +54,7 @@ public class GUIButton extends GUIElement implements IClickable {
 		init();
 	}
 	
-	public void init() {
+	private void init() {
 		Graphics2D g2 = image.createGraphics();
 		FontMetrics fm = g2.getFontMetrics(font);
 		

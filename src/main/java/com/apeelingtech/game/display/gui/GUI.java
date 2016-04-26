@@ -57,6 +57,7 @@ public class GUI implements MouseListener, MouseMotionListener, MouseWheelListen
 	
 	public void render(Graphics2D g) {
 		for (GUIElement element : elements) {
+			if (element.isHidden()) continue;
 			element.render(g);
 		}
 	}
@@ -68,6 +69,7 @@ public class GUI implements MouseListener, MouseMotionListener, MouseWheelListen
 	@Override
 	public void mousePressed(MouseEvent e) {
 		for (GUIElement ge : elements) {
+			if (ge.isHidden()) continue;
 			if (ge instanceof IClickable) {
 				if (ge.bounds.contains(e.getPoint())) {
 					((IClickable) ge).click(e);
@@ -99,6 +101,7 @@ public class GUI implements MouseListener, MouseMotionListener, MouseWheelListen
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		for (GUIElement ge : elements) {
+			if (ge.isHidden()) continue;
 			if (ge instanceof IClickable) {
 				if (ge.bounds.contains(e.getPoint()) && !(ge.bounds.contains(prevPoint))) {
 					((IClickable) ge).mouseEnter(e);
@@ -117,6 +120,7 @@ public class GUI implements MouseListener, MouseMotionListener, MouseWheelListen
 	@Override
 	public void keyTyped(KeyEvent e) {
 		for (GUIElement ge : elements) {
+			if (ge.isHidden()) continue;
 			if (ge instanceof IKeyable) {
 				((IKeyable) ge).keyTyped(e);
 			}
@@ -126,6 +130,7 @@ public class GUI implements MouseListener, MouseMotionListener, MouseWheelListen
 	@Override
 	public void keyPressed(KeyEvent e) {
 		for (GUIElement ge : elements) {
+			if (ge.isHidden()) continue;
 			if (ge instanceof IKeyable) {
 				((IKeyable) ge).keyPressed(e);
 			}
@@ -135,6 +140,7 @@ public class GUI implements MouseListener, MouseMotionListener, MouseWheelListen
 	@Override
 	public void keyReleased(KeyEvent e) {
 		for (GUIElement ge : elements) {
+			if (ge.isHidden()) continue;
 			if (ge instanceof IKeyable) {
 				((IKeyable) ge).keyReleased(e);
 			}

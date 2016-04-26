@@ -53,6 +53,10 @@ public class GUIText extends GUIElement {
 		g.drawString(text, getX(), getY());
 	}
 	
+	public Rectangle2D getStringBounds() {
+		return stringBounds;
+	}
+	
 	public String getText() {
 		return text;
 	}
