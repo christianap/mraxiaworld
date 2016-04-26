@@ -37,7 +37,8 @@ public class Startstate extends GameState {
 	
 	public void init() {
 		
-		playButton = new GUIButton("Play!", "Times New Roman", Font.PLAIN, false, Game.WIDTH * Game.SCALE - 150, (Game.HEIGHT * Game.SCALE / 2) - ((25 / 2) + buttonSpace), 90, 25);
+		playButton = new GUIButton("Play!", "Times New Roman", Font.PLAIN, false, (Game.WIDTH * Game.SCALE - 50), (Game.HEIGHT * Game.SCALE / 2) - ((25 / 2) + buttonSpace), 90, 25);
+		playButton.setX((Game.WIDTH * Game.SCALE - 50) - playButton.getWidth());
 		playButton.setColors(new Color(0, 220, 0), new Color(0, 180, 0), new Color(0, 200, 0));
 		playButton.setOutline(0);
 		playButton.setRounded(15, 15);
@@ -75,7 +76,8 @@ public class Startstate extends GameState {
 		});
 		gui.add(playButton);
 		
-		exitButton = new GUIButton("Exit", Game.WIDTH * Game.SCALE - 150, (Game.HEIGHT * Game.SCALE / 2) + ((25 / 2) + buttonSpace), playButton);
+		exitButton = new GUIButton("Exit", Game.WIDTH * Game.SCALE - 50, (Game.HEIGHT * Game.SCALE / 2) + ((25 / 2) + buttonSpace), playButton);
+		exitButton.setX((Game.WIDTH * Game.SCALE - 50) - exitButton.getWidth());
 		exitButton.setColors(new Color(220, 0, 0), new Color(180, 0, 0), new Color(200, 0, 0));
 		exitButton.addAction(new ButtonAction() {
 			@Override
@@ -130,6 +132,8 @@ public class Startstate extends GameState {
 	public void tick() {
 		if (setupState != null) {
 			playButton.setText("Continue Game");
+			// TODO: Not working!
+			playButton.setX((Game.WIDTH * Game.SCALE - 50) - playButton.getWidth());
 		}
 	}
 	

@@ -19,6 +19,7 @@ public class GUIButton extends GUIElement implements IClickable {
 	public Rectangle2D stringBounds;
 	public ButtonAction buttonAction;
 	
+	// TODO: Change button width to match width of text plus padding
 	public GUIButton(String label, boolean isFramed, int x, int y, int width, int height) {
 		super(x, y, width, height);
 		this.label = label;
