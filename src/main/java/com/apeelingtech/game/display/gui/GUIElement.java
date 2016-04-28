@@ -5,8 +5,10 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.apeelingtech.game.Game;
+import com.apeelingtech.game.events.EventListener;
+import com.apeelingtech.game.events.Event;
 
-public abstract class GUIElement {
+public abstract class GUIElement implements EventListener {
 	
 	protected Rectangle bounds;
 	protected BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_3BYTE_BGR);
@@ -16,7 +18,12 @@ public abstract class GUIElement {
 		bounds = new Rectangle(x, y, width, height);
 	}
 	
+	// TODO: Add tick() method???
+	
 	public abstract void render(Graphics2D g);
+	
+	public void onEvent(Event event) {
+	}
 	
 	public final boolean isHidden() {
 		return hidden;

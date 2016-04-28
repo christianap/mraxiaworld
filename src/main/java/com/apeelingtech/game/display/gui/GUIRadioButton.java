@@ -4,7 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
-public class GUIRadioButton extends GUIElement implements IClickable {
+import com.apeelingtech.game.events.Event;
+import com.apeelingtech.game.events.EventDispatcher;
+import com.apeelingtech.game.events.types.MousePressedEvent;
+
+public class GUIRadioButton extends GUIElement {
 	
 	public GUIText label;
 	
@@ -46,31 +50,34 @@ public class GUIRadioButton extends GUIElement implements IClickable {
 	}
 	
 	@Override
+	public void onEvent(Event event) {
+		EventDispatcher eventDispatcher = new EventDispatcher(event);
+		eventDispatcher.dispatch(Event.Type.MOUSE_PRESSED, (Event e) -> click((MousePressedEvent) e));
+		//eventDispatcher.dispatch(Event.Type.MOUSE_PRESSED, );
+	}
+	
 	public void addAction(ButtonAction buttonAction) {
 		this.buttonAction = buttonAction;
 	}
 	
-	@Override
-	public void click(MouseEvent e) {
+	public boolean click(MousePressedEvent e) {
 		enabled = true;
 		if (buttonAction != null) {
-			this.buttonAction.action(e);
+			buttonAction.action(e); // Not correct type
 		}
 	}
 	
-	@Override
-	public void mouseEnter(MouseEvent e) {
+	/*public boolean mouseEnter(MouseMovedEvent e) {
 		if (buttonAction != null) {
 			this.buttonAction.mouseEnter(e);
 		}
 	}
 	
-	@Override
-	public void mouseExit(MouseEvent e) {
+	public boolean mouseExit(MouseEvent e) {
 		if (buttonAction != null) {
 			this.buttonAction.mouseExit(e);
 		}
-	}
+	}*/
 	
 	@Override
 	public void render(Graphics2D g) {

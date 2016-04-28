@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
@@ -15,14 +16,17 @@ import com.apeelingtech.game.Game;
 import com.apeelingtech.game.display.gamestates.GameState;
 import com.apeelingtech.game.display.gamestates.Gamescreen;
 import com.apeelingtech.game.display.gamestates.Startstate;
+import com.apeelingtech.game.events.types.*; // Expand this
+import com.apeelingtech.game.events.Event;
 import com.apeelingtech.game.display.gui.GUI;
 
-public class Display implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
+public class Display {
 	
-	public List<GameState> gameStates = new ArrayList<GameState>();
+	public List<GameState> gameStates = new ArrayList<>();
 	private Game game;
 	public GameState currentGameState;
 	private Startstate startState;
+	public int keys[]; // TODO
 	
 	/**
 	 * Makes a new Display that is used to render Game States. This also creates a StartState and sets that as the current GameState to be shown when the game starts.
@@ -32,13 +36,63 @@ public class Display implements MouseListener, MouseMotionListener, MouseWheelLi
 	 */
 	public Display(Game game) {
 		this.game = game;
-		startState = new Startstate(game, new GUI(this), this);
+		startState = new Startstate(game, this);
 		add(startState);
 		currentGameState = gameStates.get(0);
-		game.addKeyListener(this);
-		game.addMouseListener(this);
-		game.addMouseMotionListener(this);
-		game.addMouseWheelListener(this);
+		
+		game.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                MousePressedEvent event = new MousePressedEvent(e.getButton(), e.getX(), e.getY());
+                onEvent(event);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                MouseReleasedEvent event = new MouseReleasedEvent(e.getButton(), e.getX(), e.getY());
+                onEvent(event);
+            }
+        });
+
+        game.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                MouseMovedEvent event = new MouseMovedEvent(e.getX(), e.getY(), true);
+                onEvent(event);
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                MouseMovedEvent event = new MouseMovedEvent(e.getX(), e.getY(), false);
+                onEvent(event);
+            }
+        });
+
+        game.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                KeyPressedEvent event = new KeyPressedEvent(e.getKeyCode());
+                onEvent(event);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                KeyReleasedEvent event = new KeyReleasedEvent(e.getKeyCode());
+                onEvent(event);
+            }
+        });
+        
+        game.addMouseWheelListener(new MouseWheelListener() {
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				MouseWheelMovedEvent event = new MouseWheelMovedEvent(e.getWheelRotation());
+				onEvent(event);
+			}
+        });
 	}
 	
 	public void add(GameState gs) {
@@ -47,6 +101,11 @@ public class Display implements MouseListener, MouseMotionListener, MouseWheelLi
 	
 	public void tick() {
 		currentGameState.tick();
+	}
+	
+	public void onEvent(Event event) {
+		// call onEvent for currentState
+		currentGameState.onEvent(event);
 	}
 	
 	public void render(Graphics2D g) {
@@ -58,7 +117,7 @@ public class Display implements MouseListener, MouseMotionListener, MouseWheelLi
 		if (getCurrentGameState() instanceof Gamescreen) {
 			g.drawImage(game.image, 0, 0, game.getWidth(), game.getHeight(), null);
 		}
-		currentGameState.getGUI().render(g);
+		//currentGameState.getGUI().render(g); Replace with something else???
 	}
 	
 	public GameState getCurrentGameState() {
@@ -87,50 +146,6 @@ public class Display implements MouseListener, MouseMotionListener, MouseWheelLi
 	
 	public void addKeyListener(KeyListener listener) {
 		game.addKeyListener(listener);
-	}
-	
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
-	
-	@Override
-	public void mousePressed(MouseEvent e) {
-	}
-	
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
-	
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-	
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-	
-		@Override
-	public void mouseDragged(MouseEvent e) {
-	}
-	
-	@Override
-	public void mouseMoved(MouseEvent e) {
-	}
-	
-	@Override
-	public void mouseWheelMoved(MouseWheelEvent e) {
-	}
-	
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
-	
-	@Override
-	public void keyPressed(KeyEvent e) {
-	}
-	
-	@Override
-	public void keyReleased(KeyEvent e) {
 	}
 	
 }

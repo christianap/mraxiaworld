@@ -3,6 +3,8 @@ package com.apeelingtech.game.display.gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import com.apeelingtech.game.events.Event;
+
 public class GUIRect extends GUIElement {
 	
 	private Color color;
@@ -18,6 +20,10 @@ public class GUIRect extends GUIElement {
 		super(x, y, width, height);
 		this.color = color;
 		outline = false;
+	}
+	
+	@Override
+	public void onEvent(Event event) {
 	}
 	
 	@Override

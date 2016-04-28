@@ -10,7 +10,7 @@ import com.apeelingtech.game.net.packets.Packet02Move;
 
 public class Player extends Mob {
 	
-	private GameGUI input;
+	private GameGUI input; // TODO: Change!!
 	// -1, 111, 145, 543 - Default
 	// 550 - Yellow (3rd)
 	//
@@ -23,7 +23,7 @@ public class Player extends Mob {
 	private int skinColor = SetupState.CharacterSColor.DEFAULT.getSkinColor();
 	private byte characterType = 1;
 	
-	public Player(Level level, int x, int y, GameGUI input, String username, int shirtColor, int skinColor, byte characterType) {
+	public Player(Level level, int x, int y, GameGUI input, String username, int shirtColor, int skinColor, byte characterType) { // TODO: Change gui and input
 		super(level, "Player", x, y, 1);
 		this.shirtColor = shirtColor;
 		this.skinColor = skinColor;

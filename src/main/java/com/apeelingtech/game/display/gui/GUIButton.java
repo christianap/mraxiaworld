@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
-public class GUIButton extends GUIElement implements IClickable {
+public class GUIButton extends GUIElement { // onClick
 	public String label;
 	
 	@SuppressWarnings("unused")
@@ -66,22 +66,18 @@ public class GUIButton extends GUIElement implements IClickable {
 		g2.dispose();
 	}
 	
-	@Override
 	public void addAction(ButtonAction buttonAction) {
 		this.buttonAction = buttonAction;
 	}
 	
-	@Override
 	public void click(MouseEvent e) {
 		buttonAction.action(e);
 	}
 	
-	@Override
 	public void mouseEnter(MouseEvent e) {
 		buttonAction.mouseEnter(e);
 	}
 	
-	@Override
 	public void mouseExit(MouseEvent e) {
 		buttonAction.mouseExit(e);
 	}

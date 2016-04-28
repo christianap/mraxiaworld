@@ -7,6 +7,8 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import com.apeelingtech.game.events.Event;
+
 public class GUIImage extends GUIElement {
 	
 	private URL path;
@@ -62,6 +64,10 @@ public class GUIImage extends GUIElement {
 	public void setImage(URL path) {
 		this.path = path;
 		loadImage();
+	}
+	
+	@Override
+	public void onEvent(Event event) {
 	}
 	
 	@Override

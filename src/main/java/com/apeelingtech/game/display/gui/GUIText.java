@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 import com.apeelingtech.game.Game;
+import com.apeelingtech.game.events.Event;
 
 public class GUIText extends GUIElement {
 	
@@ -44,6 +45,10 @@ public class GUIText extends GUIElement {
 		stringBounds = fm.getStringBounds(text, g2);
 		
 		g2.dispose();
+	}
+	
+	@Override
+	public void onEvent(Event event) {
 	}
 	
 	@Override

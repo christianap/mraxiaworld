@@ -8,35 +8,27 @@ import java.awt.event.MouseEvent;
 import com.apeelingtech.game.Game;
 import com.apeelingtech.game.display.Display;
 import com.apeelingtech.game.display.gui.ButtonAction;
-import com.apeelingtech.game.display.gui.GUI;
 import com.apeelingtech.game.display.gui.GUIButton;
+import com.apeelingtech.game.events.Event;
 import com.apeelingtech.game.net.packets.Packet01Disconnect;
+import com.apeelingtech.game.layers.Layer;
 
 public class Startstate extends GameState {
 	
 	private GUIButton playButton;
-	public boolean changePlayButton = false;
+	public boolean changePlayButton = false; // TODO: Why is this here?
 	private GUIButton exitButton;
 	
 	private int buttonSpace = 5;
 	
 	private GameState setupState;
 	
-	// private GUIRectButton playButton;
-	// private GUIRectButton exitButton;
-	
 	public Startstate(Game game, Display display) {
 		super(game, Color.black, display);
 		init();
 	}
 	
-	public Startstate(Game game, GUI gui, Display display) {
-		super(game, Color.black, gui, display);
-		init();
-	}
-	
 	public void init() {
-		
 		playButton = new GUIButton("Play!", "Times New Roman", Font.PLAIN, false, (Game.WIDTH * Game.SCALE - 50), (Game.HEIGHT * Game.SCALE / 2) - ((25 / 2) + buttonSpace), 90, 25);
 		playButton.setX((Game.WIDTH * Game.SCALE - 50) - playButton.getWidth());
 		playButton.setColors(new Color(0, 220, 0), new Color(0, 180, 0), new Color(0, 200, 0));
@@ -46,7 +38,7 @@ public class Startstate extends GameState {
 			@Override
 			public void action(MouseEvent e) {
 				if (setupState == null) {
-					setupState = new SetupState(getGame(), new GUI(display), display);
+					setupState = new SetupState(getGame(), display);
 					display.add(setupState);
 					display.changeCurrentGameState(1);
 				} else {
@@ -74,7 +66,6 @@ public class Startstate extends GameState {
 				}
 			}
 		});
-		gui.add(playButton);
 		
 		exitButton = new GUIButton("Exit", Game.WIDTH * Game.SCALE - 50, (Game.HEIGHT * Game.SCALE / 2) + ((25 / 2) + buttonSpace), playButton);
 		exitButton.setX((Game.WIDTH * Game.SCALE - 50) - exitButton.getWidth());
@@ -88,7 +79,8 @@ public class Startstate extends GameState {
 						Packet01Disconnect packet = new Packet01Disconnect(((Gamescreen) display.gameStates.get(2)).player.getUsername());
 						packet.writeData(((Gamescreen) display.gameStates.get(2)).socketClient);
 					}
-				} catch (IndexOutOfBoundsException ioobe) {
+				} catch (IndexOutOfBoundsException e2) {
+					e2.printStackTrace();
 				}
 				
 				getGame().frame.setVisible(false);
@@ -109,23 +101,10 @@ public class Startstate extends GameState {
 				exitButton.label = "Exit";
 			}
 		});
-		gui.add(exitButton);
 		
-		// playButton = new GUIRectButton(Game.GAME_SIZE.width - 100, 400, 90, 30, Color.GREEN, "Play!", Color.BLACK, new Font("Times New Roman", Font.BOLD, 14), gui, new ButtonAction() {
-		// @Override
-		// public void action() {
-		// game.display.setCurrentGameState(1);
-		// }
-		// });
-		// gui.add(playButton);
-		//
-		// exitButton = new GUIRectButton(Game.GAME_SIZE.width - 100, 440, 90, 30, Color.RED, "Exit", Color.BLACK, new Font("Times New Roman", Font.BOLD, 14), gui, new ButtonAction() {
-		// @Override
-		// public void action() {
-		// // Code to stop the Game
-		// }
-		// });
-		// gui.add(exitButton);
+		layerList.add(new Layer((g) -> {
+			// Render stuff here!
+		}, playButton, exitButton));
 	}
 	
 	@Override
@@ -137,8 +116,8 @@ public class Startstate extends GameState {
 		}
 	}
 	
-	@Override
+	/*@Override
 	public void render(Graphics2D g) {
-	}
+	}*/
 	
 }

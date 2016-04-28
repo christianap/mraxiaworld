@@ -6,9 +6,9 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import com.apeelingtech.game.Game;
+import com.apeelingtech.game.layers.Layer;
 import com.apeelingtech.game.display.Display;
 import com.apeelingtech.game.display.gui.ButtonAction;
-import com.apeelingtech.game.display.gui.GUI;
 import com.apeelingtech.game.display.gui.GUIButton;
 
 public class Pausestate extends GameState {
@@ -16,8 +16,8 @@ public class Pausestate extends GameState {
 	private GUIButton continueBtn;
 	private GUIButton menuBtn;
 	
-	public Pausestate(Game game, GUI gui, Display display) {
-		super(game, Color.GREEN, gui, display);
+	public Pausestate(Game game, Display display) {
+		super(game, Color.GREEN, display);
 		init();
 	}
 	
@@ -65,20 +65,19 @@ public class Pausestate extends GameState {
 			
 		});
 		
-		gui.add(continueBtn);
-		gui.add(menuBtn);
+		layerList.add(new Layer((g) -> {
+		}, continueBtn, menuBtn));
 	}
 	
 	@Override
 	public void tick() {
-		// gui.tick();
 	}
 	
-	@Override
+	/*@Override
 	public void render(Graphics2D g) {
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("Times New Roman", Font.BOLD, 24));
 		g.drawString("Paused", 105, 120);
-	}
+	}*/
 	
 }

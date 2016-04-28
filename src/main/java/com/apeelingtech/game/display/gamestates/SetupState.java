@@ -7,8 +7,8 @@ import java.awt.event.MouseEvent;
 
 import com.apeelingtech.game.Game;
 import com.apeelingtech.game.display.Display;
+import com.apeelingtech.game.layers.Layer;
 import com.apeelingtech.game.display.gui.ButtonAction;
-import com.apeelingtech.game.display.gui.GUI;
 import com.apeelingtech.game.display.gui.GUIButton;
 import com.apeelingtech.game.display.gui.GUIRadioButton;
 import com.apeelingtech.game.display.gui.GUIField;
@@ -86,17 +86,17 @@ public class SetupState extends GameState {
 	private CharacterColor shirtColor = CharacterColor.DEFAULT;
 	private CharacterSColor skinColor = CharacterSColor.DEFAULT;
 	
-	public SetupState(Game game, GUI gui, Display display) {
-		super(game, Color.black, gui, display);
+	public SetupState(Game game, Display display) {
+		super(game, Color.black, display);
 		init();
 	}
 	
 	public void init() {
 		title = new GUIText("Setup Character and World", "Times New Roman", Font.BOLD, Color.CYAN, 100, 23, 25);
 		title.setHorizontalCenter();
-		gui.add(title);
+		//gui.add(title);
 		currentCharacter = new GUIImage(100, 100, 64, 64, "/C1Default.png"); // Animate this picture??? TODO
-		gui.add(currentCharacter);
+		//gui.add(currentCharacter);
 		prevChar = new GUIButton("<", "Times New Roman", Font.BOLD, true, 50, 115, 30, 30);
 		prevChar.setColors(new Color(0, 0, 220), new Color(0, 0, 120), Color.CYAN);
 		prevChar.addAction(new ButtonAction() {
@@ -117,7 +117,7 @@ public class SetupState extends GameState {
 			public void mouseExit(MouseEvent e) {
 			}
 		});
-		gui.add(prevChar);
+		//gui.add(prevChar);
 		nextChar = new GUIButton(">", "Times New Roman", Font.BOLD, true, 184, 115, 30, 30);
 		nextChar.setColors(new Color(0, 0, 220), new Color(0, 0, 120), Color.CYAN);
 		nextChar.addAction(new ButtonAction() {
@@ -138,7 +138,7 @@ public class SetupState extends GameState {
 			public void mouseExit(MouseEvent e) {
 			}
 		});
-		gui.add(nextChar);
+		//gui.add(nextChar);
 		
 		// 3 Radio Buttons in group for whether starting server, connecting to server, or local play
 		localRadioButton = new GUIRadioButton("Local Gameplay", Color.CYAN, 300, 127);
@@ -146,7 +146,7 @@ public class SetupState extends GameState {
 		connectRadioButton = new GUIRadioButton("Connect to server", Color.CYAN, 300, 177);
 		GUIField ipAddress = new GUIField("IP Address", 300, 207, connectRadioButton.getWidth(), 30);
 		ipAddress.hide();
-		gui.add(ipAddress); // TODO: Add ipAddress to group in future!
+		//gui.add(ipAddress); // TODO: Add ipAddress to group in future!
 		connectRadioButton.addAction(new ButtonAction() {
 			@Override
 			public void action(MouseEvent e) {
@@ -163,7 +163,7 @@ public class SetupState extends GameState {
 		});
 		gameplayTypeGroup = new GUIGroup("Gameplay Type", Color.CYAN, 22, 300, 100, connectRadioButton.getWidth(), 100, localRadioButton, serverRadioButton, connectRadioButton);
 		gameplayTypeGroup.enable(0);
-		gui.add(gameplayTypeGroup);
+		//gui.add(gameplayTypeGroup);
 		
 		backButton = new GUIButton("Back", "Times New Roman", Font.BOLD, true, 10, Game.HEIGHT * Game.SCALE - 40, 80, 30);
 		backButton.setColors(new Color(220, 0, 0), new Color(120, 0, 0), Color.CYAN);
@@ -185,21 +185,20 @@ public class SetupState extends GameState {
 			
 		});
 		
-		gui.add(backButton);
+		//gui.add(backButton);
 		
 		playButton = new GUIButton("Play!", "Times New Roman", Font.BOLD, true, Game.WIDTH * Game.SCALE - 90, Game.HEIGHT * Game.SCALE - 40, 80, 30);
 		playButton.setColors(new Color(0, 220, 0), new Color(0, 120, 0), Color.CYAN);
 		playButton.setRounded(5, 5);
 		playButton.addAction(new ButtonAction() {
-			
 			@Override
 			public void action(MouseEvent e) {
 				if (gameScreen == null) {
-					gameScreen = new Gamescreen(getGame(), new GameGUI(display), display, shirtColor, skinColor, characterType);
+					gameScreen = new Gamescreen(getGame(), display, shirtColor, skinColor, characterType, username.getText());
 					display.add(gameScreen);
-					pauseState = new Pausestate(getGame(), new GUI(display), display);
+					pauseState = new Pausestate(getGame(), display);
 					display.add(pauseState);
-					deathState = new Deathstate(getGame(), new GUI(display), display);
+					deathState = new Deathstate(getGame(), display);
 					display.add(deathState);
 				}
 				display.changeCurrentGameState(2); // Change to Gamescreen state
@@ -212,11 +211,10 @@ public class SetupState extends GameState {
 			@Override
 			public void mouseExit(MouseEvent e) {
 			}
-			
 		});
-		gui.add(playButton);
+		//gui.add(playButton);
 		shirtColorText = new GUIText("Blue", "Times New Roman", Font.BOLD, Color.cyan, 112, 206, 22);
-		gui.add(shirtColorText);
+		//gui.add(shirtColorText);
 		
 		prevShirtColor = new GUIButton("<", "Times New Roman", Font.BOLD, true, 50, 184, 30, 30);
 		prevShirtColor.setColors(new Color(0, 0, 220), new Color(0, 0, 120), Color.CYAN);
@@ -242,7 +240,7 @@ public class SetupState extends GameState {
 			public void mouseExit(MouseEvent e) {
 			}
 		});
-		gui.add(prevShirtColor);
+		//gui.add(prevShirtColor);
 		nextShirtColor = new GUIButton(">", "Times New Roman", Font.BOLD, true, 184, 184, 30, 30);
 		nextShirtColor.setColors(new Color(0, 0, 220), new Color(0, 0, 120), Color.CYAN);
 		nextShirtColor.addAction(new ButtonAction() {
@@ -267,10 +265,10 @@ public class SetupState extends GameState {
 			public void mouseExit(MouseEvent e) {
 			}
 		});
-		gui.add(nextShirtColor);
+		//gui.add(nextShirtColor);
 		
 		skinColorText = new GUIText("White", "Times New Roman", Font.BOLD, Color.cyan, 107, 246, 22);
-		gui.add(skinColorText);
+		//gui.add(skinColorText);
 		
 		prevSkinColor = new GUIButton("<", "Times New Roman", Font.BOLD, true, 50, 224, 30, 30);
 		prevSkinColor.setColors(new Color(0, 0, 220), new Color(0, 0, 120), Color.CYAN);
@@ -292,7 +290,7 @@ public class SetupState extends GameState {
 			public void mouseExit(MouseEvent e) {
 			}
 		});
-		gui.add(prevSkinColor);
+		//gui.add(prevSkinColor);
 		nextSkinColor = new GUIButton(">", "Times New Roman", Font.BOLD, true, 184, 224, 30, 30);
 		nextSkinColor.setColors(new Color(0, 0, 220), new Color(0, 0, 120), Color.CYAN);
 		nextSkinColor.addAction(new ButtonAction() {
@@ -313,10 +311,14 @@ public class SetupState extends GameState {
 			public void mouseExit(MouseEvent e) {
 			}
 		});
-		gui.add(nextSkinColor);
 		
 		username = new GUIField("username", 50, 264, 164, 30);
-		gui.add(username);
+		
+		layerList.add(new Layer((g) -> {
+			
+		}, currentCharacter, title, prevChar, nextChar, gameplayTypeGroup,
+		backButton, playButton, shirtColorText, prevShirtColor, nextShirtColor,
+		skinColorText, prevSkinColor, nextSkinColor));
 	}
 	
 	@Override
@@ -338,8 +340,8 @@ public class SetupState extends GameState {
 		}
 	}
 	
-	@Override
+	/*@Override
 	public void render(Graphics2D g) {
-	}
+	}*/
 	
 }
