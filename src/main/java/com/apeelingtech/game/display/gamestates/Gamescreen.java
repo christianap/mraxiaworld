@@ -17,6 +17,12 @@ import com.apeelingtech.game.net.packets.Packet00Login;
 
 public class Gamescreen extends GameState {
 	
+	public enum GamePlayType {
+		LOCAL,
+		LOCALSERVER,
+		CONNECT
+	}
+	
 	public Player player;
 	public Level level;
 	
@@ -26,37 +32,50 @@ public class Gamescreen extends GameState {
 	private SetupState.CharacterColor shirtColor = SetupState.CharacterColor.DEFAULT;
 	private SetupState.CharacterSColor skinColor = SetupState.CharacterSColor.DEFAULT;
 	private byte characterType = 1;
+	private String username;
+	private String ipAddress;
+	private GamePlayType type;
+	private String levelString;
 	
-	public Gamescreen(Game game, GameGUI gui, Display display, SetupState.CharacterColor shirtColor, SetupState.CharacterSColor skinColor, byte characterType) {
+	public Gamescreen(Game game, GameGUI gui, Display display, SetupState.CharacterColor shirtColor, SetupState.CharacterSColor skinColor, byte characterType, String username, GamePlayType type, String ipAddress, String levelString) {
 		super(game, Color.GREEN, gui, display);
 		this.shirtColor = shirtColor;
 		this.skinColor = skinColor;
 		this.characterType = characterType;
+		this.username = username;
+		this.type = type;
+		this.ipAddress = ipAddress;
+		this.levelString = levelString;
 		gui.addGameScreen(this);
 		init();
-		// display.changeCurrentGameState(1); // Change State to loadingState!
 	}
 	
 	public void init() {
 		if (!game.isApplet) {
-			if (JOptionPane.showConfirmDialog(game, "Do you want to run the server?") == 0) {
+			if (type == GamePlayType.LOCALSERVER) { // Want's to run a server
 				socketServer = new GameServer(this);
 				socketServer.start();
-				
 				socketClient = new GameClient(this, "localhost");
-			} else {
-				if (JOptionPane.showConfirmDialog(game, "Do you want to connect to a server?") == 0) {
-					socketClient = new GameClient(this, JOptionPane.showInputDialog("What IP do you want to connect to?", "localhost"));
-				} else {
-					socketClient = new GameClient(this, "localhost");
+				System.out.println("Created SERVER");
+			} else if (type == GamePlayType.CONNECT) { // Wants to connect to server
+				if (ipAddress == null || ipAddress == "" || ipAddress == "IP Address") {
+					ipAddress = "localhost";
 				}
+				socketClient = new GameClient(this, ipAddress);
+				System.out.println("Connected to server");
+			} else if (type == GamePlayType.LOCAL) {
+				socketClient = new GameClient(this, "localhost");
+				System.out.println("Local");
 			}
 			socketClient.start();
 		}
 		
-		level = new Level("/levels/water_test_level.png");
+		level = new Level(levelString);
 		
-		player = new PlayerMP(level, 100, 100, (GameGUI) gui, JOptionPane.showInputDialog("Please enter a username", ""), null, -1, shirtColor.getColor(), skinColor.getSkinColor(), characterType);
+		if (username == null || username == "") {
+			username = JOptionPane.showInputDialog("Please enter a username that is not blank", "");
+		}
+		player = new PlayerMP(level, 1, 1, (GameGUI) gui, username, null, -1, shirtColor.getColor(), skinColor.getSkinColor(), characterType);
 		level.addEntity(player);
 		if (!game.isApplet) {
 			Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.x, player.y, player.getShirtColor(), player.getSkinColor(), characterType);

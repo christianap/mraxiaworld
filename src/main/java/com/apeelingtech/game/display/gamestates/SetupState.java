@@ -79,8 +79,12 @@ public class SetupState extends GameState {
 	private GUIText skinColorText;
 	private GUIButton prevSkinColor;
 	private GUIButton nextSkinColor;
-	
 	private GUIField username;
+	
+	private GUIImage currentLevel;
+	private String currentLevelFile = "/levels/water_test_level.png";
+	private GUIButton prevLevel;
+	private GUIButton nextLevel;
 	
 	private byte characterType = 1;
 	private CharacterColor shirtColor = CharacterColor.DEFAULT;
@@ -95,6 +99,8 @@ public class SetupState extends GameState {
 		title = new GUIText("Setup Character and World", "Times New Roman", Font.BOLD, Color.CYAN, 100, 23, 25);
 		title.setHorizontalCenter();
 		gui.add(title);
+		
+		// Character Creation
 		currentCharacter = new GUIImage(100, 100, 64, 64, "/C1Default.png"); // Animate this picture??? TODO
 		gui.add(currentCharacter);
 		prevChar = new GUIButton("<", "Times New Roman", Font.BOLD, true, 50, 115, 30, 30);
@@ -140,81 +146,6 @@ public class SetupState extends GameState {
 		});
 		gui.add(nextChar);
 		
-		// 3 Radio Buttons in group for whether starting server, connecting to server, or local play
-		localRadioButton = new GUIRadioButton("Local Gameplay", Color.CYAN, 300, 127);
-		serverRadioButton = new GUIRadioButton("Create Server", Color.CYAN, 300, 152);
-		connectRadioButton = new GUIRadioButton("Connect to server", Color.CYAN, 300, 177);
-		GUIField ipAddress = new GUIField("IP Address", 300, 207, connectRadioButton.getWidth(), 30);
-		ipAddress.hide();
-		gui.add(ipAddress); // TODO: Add ipAddress to group in future!
-		connectRadioButton.addAction(new ButtonAction() {
-			@Override
-			public void action(MouseEvent e) {
-				ipAddress.show();
-			}
-			
-			@Override
-			public void mouseEnter(MouseEvent e) {
-			}
-			
-			@Override
-			public void mouseExit(MouseEvent e) {
-			}
-		});
-		gameplayTypeGroup = new GUIGroup("Gameplay Type", Color.CYAN, 22, 300, 100, connectRadioButton.getWidth(), 100, localRadioButton, serverRadioButton, connectRadioButton);
-		gameplayTypeGroup.enable(0);
-		gui.add(gameplayTypeGroup);
-		
-		backButton = new GUIButton("Back", "Times New Roman", Font.BOLD, true, 10, Game.HEIGHT * Game.SCALE - 40, 80, 30);
-		backButton.setColors(new Color(220, 0, 0), new Color(120, 0, 0), Color.CYAN);
-		backButton.setRounded(5, 5);
-		backButton.addAction(new ButtonAction() {
-			
-			@Override
-			public void action(MouseEvent e) {
-				display.changeCurrentGameState(0);
-			}
-			
-			@Override
-			public void mouseEnter(MouseEvent e) {
-			}
-			
-			@Override
-			public void mouseExit(MouseEvent e) {
-			}
-			
-		});
-		
-		gui.add(backButton);
-		
-		playButton = new GUIButton("Play!", "Times New Roman", Font.BOLD, true, Game.WIDTH * Game.SCALE - 90, Game.HEIGHT * Game.SCALE - 40, 80, 30);
-		playButton.setColors(new Color(0, 220, 0), new Color(0, 120, 0), Color.CYAN);
-		playButton.setRounded(5, 5);
-		playButton.addAction(new ButtonAction() {
-			
-			@Override
-			public void action(MouseEvent e) {
-				if (gameScreen == null) {
-					gameScreen = new Gamescreen(getGame(), new GameGUI(display), display, shirtColor, skinColor, characterType);
-					display.add(gameScreen);
-					pauseState = new Pausestate(getGame(), new GUI(display), display);
-					display.add(pauseState);
-					deathState = new Deathstate(getGame(), new GUI(display), display);
-					display.add(deathState);
-				}
-				display.changeCurrentGameState(2); // Change to Gamescreen state
-			}
-			
-			@Override
-			public void mouseEnter(MouseEvent e) {
-			}
-			
-			@Override
-			public void mouseExit(MouseEvent e) {
-			}
-			
-		});
-		gui.add(playButton);
 		shirtColorText = new GUIText("Blue", "Times New Roman", Font.BOLD, Color.cyan, 112, 206, 22);
 		gui.add(shirtColorText);
 		
@@ -317,6 +248,144 @@ public class SetupState extends GameState {
 		
 		username = new GUIField("username", 50, 264, 164, 30);
 		gui.add(username);
+		
+		
+		
+		// 3 Radio Buttons in group for whether starting server, connecting to server, or local play
+		localRadioButton = new GUIRadioButton("Local Gameplay", Color.CYAN, 300, 127);
+		serverRadioButton = new GUIRadioButton("Create Server", Color.CYAN, 300, 152);
+		connectRadioButton = new GUIRadioButton("Connect to server", Color.CYAN, 300, 177);
+		GUIField ipAddress = new GUIField("IP Address", 300, 207, connectRadioButton.getWidth(), 30);
+		ipAddress.hide();
+		gui.add(ipAddress); // TODO: Add ipAddress to group in future!
+		connectRadioButton.addAction(new ButtonAction() {
+			@Override
+			public void action(MouseEvent e) {
+				ipAddress.show();
+			}
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExit(MouseEvent e) {
+			}
+		});
+		gameplayTypeGroup = new GUIGroup("Gameplay Type", Color.CYAN, 22, 300, 100, connectRadioButton.getWidth(), 100, localRadioButton, serverRadioButton, connectRadioButton);
+		gameplayTypeGroup.enable(0);
+		gui.add(gameplayTypeGroup);
+		
+		backButton = new GUIButton("Back", "Times New Roman", Font.BOLD, true, 10, Game.HEIGHT * Game.SCALE - 40, 80, 30);
+		backButton.setColors(new Color(220, 0, 0), new Color(120, 0, 0), Color.CYAN);
+		backButton.setRounded(5, 5);
+		backButton.addAction(new ButtonAction() {
+			
+			@Override
+			public void action(MouseEvent e) {
+				display.changeCurrentGameState(0);
+			}
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExit(MouseEvent e) {
+			}
+			
+		});
+		
+		gui.add(backButton);
+		
+		playButton = new GUIButton("Play!", "Times New Roman", Font.BOLD, true, Game.WIDTH * Game.SCALE - 90, Game.HEIGHT * Game.SCALE - 40, 80, 30);
+		playButton.setColors(new Color(0, 220, 0), new Color(0, 120, 0), Color.CYAN);
+		playButton.setRounded(5, 5);
+		playButton.addAction(new ButtonAction() {
+			
+			@Override
+			public void action(MouseEvent e) {
+				if (gameScreen == null) {
+					Gamescreen.GamePlayType type;
+					if (gameplayTypeGroup.getCurrentEnabled() == 0) {
+						type = Gamescreen.GamePlayType.LOCAL;
+					} else if (gameplayTypeGroup.getCurrentEnabled() == 1) {
+						type = Gamescreen.GamePlayType.LOCALSERVER;
+					} else if (gameplayTypeGroup.getCurrentEnabled() == 2) {
+						type = Gamescreen.GamePlayType.CONNECT;
+					} else {
+						type = Gamescreen.GamePlayType.LOCAL;
+					}
+					gameScreen = new Gamescreen(getGame(), new GameGUI(display), display, shirtColor, skinColor, characterType, username.getText(), type, ipAddress.getText(), currentLevelFile);
+					display.add(gameScreen);
+					pauseState = new Pausestate(getGame(), new GUI(display), display);
+					display.add(pauseState);
+					deathState = new Deathstate(getGame(), new GUI(display), display);
+					display.add(deathState);
+				}
+				display.changeCurrentGameState(2); // Change to Gamescreen state
+			}
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExit(MouseEvent e) {
+			}
+			
+		});
+		gui.add(playButton);
+		
+		// Change level
+		GUIText levelTitle = new GUIText("Choose a level", Color.CYAN, 300, 230, 22);
+		gui.add(levelTitle);
+		currentLevel = new GUIImage(335, 235, 75, 75, "/levels/water_test_level.png");
+		gui.add(currentLevel);
+		prevLevel = new GUIButton("<", "Times New Roman", Font.BOLD, true, 300, 240, 30, 30);
+		prevLevel.setColors(new Color(0, 0, 220), new Color(0, 0, 120), Color.CYAN);
+		prevLevel.addAction(new ButtonAction() {
+			@Override
+			public void action(MouseEvent e) {
+				if (currentLevelFile == "/levels/water_test_level.png") {
+					currentLevelFile = "/levels/small_level.png";
+				} else {
+					currentLevelFile = "/levels/water_test_level.png";
+				}
+				currentLevel.setImage(currentLevelFile);
+			}
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExit(MouseEvent e) {
+			}
+		});
+		gui.add(prevLevel);
+		nextLevel = new GUIButton(">", "Times New Roman", Font.BOLD, true, 335 + 80, 240, 30, 30);
+		nextLevel.setColors(new Color(0, 0, 220), new Color(0, 0, 120), Color.CYAN);
+		nextLevel.addAction(new ButtonAction() {
+			@Override
+			public void action(MouseEvent e) {
+				if (currentLevelFile == "/levels/water_test_level.png") {
+					currentLevelFile = "/levels/small_level.png";
+				} else {
+					currentLevelFile = "/levels/water_test_level.png";
+				}
+				currentLevel.setImage(currentLevelFile);
+			}
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExit(MouseEvent e) {
+			}
+		});
+		gui.add(nextLevel);
 	}
 	
 	@Override
