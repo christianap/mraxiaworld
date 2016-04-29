@@ -43,6 +43,7 @@ public class Gamescreen extends GameState {
 		this.skinColor = skinColor;
 		this.characterType = characterType;
 		this.username = username;
+		System.out.println("Usernmame: " + username);
 		this.type = type;
 		this.ipAddress = ipAddress;
 		this.levelString = levelString;
@@ -74,7 +75,7 @@ public class Gamescreen extends GameState {
 		if (username == null || username == "") {
 			username = JOptionPane.showInputDialog("Please enter a username that is not blank", "");
 		}
-		player = new PlayerMP(this, 100, 100, username, null, -1, shirtColor.getColor(), skinColor.getSkinColor(), characterType);
+		player = new PlayerMP(this, true, 100, 100, username, null, -1, shirtColor.getColor(), skinColor.getSkinColor(), characterType); // Local player
 		level.addEntity(player);
 		if (!game.isApplet) {
 			Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.x, player.y, player.getShirtColor(), player.getSkinColor(), characterType);

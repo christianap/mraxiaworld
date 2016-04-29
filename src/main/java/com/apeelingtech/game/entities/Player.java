@@ -23,8 +23,9 @@ public class Player extends Mob {
 	private int skinColor = SetupState.CharacterSColor.DEFAULT.getSkinColor();
 	private byte characterType = 1;
 	private Gamescreen gameScreen; // Pass keys instead?
+	private boolean noInput = true; // TODO: Temporary solution???
 	
-	public Player(Gamescreen gameScreen, int x, int y, String username, int shirtColor, int skinColor, byte characterType) { // TODO: Change gui and input
+	public Player(Gamescreen gameScreen, boolean noInput,int x, int y, String username, int shirtColor, int skinColor, byte characterType) { // TODO: Change gui and input
 		super(gameScreen.level, "Player", x, y, 1);
 		this.shirtColor = shirtColor;
 		this.skinColor = skinColor;
@@ -32,21 +33,24 @@ public class Player extends Mob {
 		colour = Colours.get(-1, 111, shirtColor, skinColor);
 		this.username = username;
 		this.gameScreen = gameScreen;
+		this.noInput = noInput;
 	}
 	
 	public void tick() {
 		int xa = 0;
 		int ya = 0;
 
-		if (gameScreen.getDisplay().keys[KeyEvent.VK_UP]) {
-			ya--;
-		} else if (gameScreen.getDisplay().keys[KeyEvent.VK_DOWN]) {
-			ya++;
-		}
-		if (gameScreen.getDisplay().keys[KeyEvent.VK_LEFT]) {
-			xa--;
-		} else if (gameScreen.getDisplay().keys[KeyEvent.VK_RIGHT]) {
-			xa++;
+		if (noInput) {
+			if (gameScreen.getDisplay().keys[KeyEvent.VK_UP]) {
+				ya--;
+			} else if (gameScreen.getDisplay().keys[KeyEvent.VK_DOWN]) {
+				ya++;
+			}
+			if (gameScreen.getDisplay().keys[KeyEvent.VK_LEFT]) {
+				xa--;
+			} else if (gameScreen.getDisplay().keys[KeyEvent.VK_RIGHT]) {
+				xa++;
+			}
 		}
 
 		if (xa != 0 || ya != 0) {

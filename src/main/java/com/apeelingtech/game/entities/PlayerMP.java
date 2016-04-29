@@ -10,8 +10,8 @@ public class PlayerMP extends Player {
 	public InetAddress ipAddress;
 	public int port;
 	
-	public PlayerMP(Gamescreen gameScreen, int x, int y, String username, InetAddress ipAddress, int port, int shirtColor, int skinColor, byte characterType) {
-		super(gameScreen, x, y, username, shirtColor, skinColor, characterType);
+	public PlayerMP(Gamescreen gameScreen, boolean noInput, int x, int y, String username, InetAddress ipAddress, int port, int shirtColor, int skinColor, byte characterType) {
+		super(gameScreen, noInput, x, y, username, shirtColor, skinColor, characterType);
 		this.ipAddress = ipAddress;
 		this.port = port;
 	}
