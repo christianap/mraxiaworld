@@ -273,6 +273,7 @@ public class SetupState extends GameState {
 				} else {
 					currentLevelFile = "/levels/water_test_level.png";
 				}
+				currentLevel.setImage(currentLevelFile);
 				return true;
 			}
 		});
@@ -288,6 +289,7 @@ public class SetupState extends GameState {
 				} else {
 					currentLevelFile = "/levels/water_test_level.png";
 				}
+				currentLevel.setImage(currentLevelFile);
 				return true;
 			}
 		});
