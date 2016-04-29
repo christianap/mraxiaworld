@@ -137,8 +137,10 @@ public class GUIField extends GUIElement {
 				case KeyEvent.VK_DOWN:
 					break;
 				case KeyEvent.VK_END:
+					textLocation = text.length();
 					break;
 				case KeyEvent.VK_HOME:
+					textLocation = 0;
 					break;
 				case KeyEvent.VK_INSERT:
 					break;

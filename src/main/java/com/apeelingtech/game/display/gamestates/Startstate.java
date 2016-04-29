@@ -44,6 +44,7 @@ public class Startstate extends GameState {
 					setupState = new SetupState(getGame(), display);
 					display.add(setupState);
 					display.changeCurrentGameState(1);
+					playButton.setText("Continue Game  <--");
 				} else {
 					if (((SetupState) setupState).gameScreen != null) {
 						display.changeCurrentGameState(2);
@@ -61,7 +62,7 @@ public class Startstate extends GameState {
 			}
 			
 			@Override
-			public boolean mouseExited(MouseMovedEvent event) {
+			public boolean mouseExited(MouseMovedEvent event) { // TODO: This is getting called event when the state is changed?
 				if (playButton.label == "Continue Game  <--") {
 					playButton.label = "Continue Game";
 				} else {
@@ -114,11 +115,11 @@ public class Startstate extends GameState {
 	
 	@Override
 	public void tick() {
-		if (setupState != null) {
+		/*if (setupState != null) {
 			playButton.setText("Continue Game");
 			// TODO: Not working!
 			playButton.setX((Game.WIDTH * Game.SCALE - 50) - playButton.getWidth());
-		}
+		}*/
 	}
 	
 }
