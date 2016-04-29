@@ -20,7 +20,6 @@ public class Deathstate extends GameState {
 	
 	private void init() {
 		text = new GUIText("You Have Died!", "Times New Roman", Font.BOLD, Color.RED, 70, 120, 24);
-		
 		layerList.add(new Layer((g) -> {
 		}, text));
 	}

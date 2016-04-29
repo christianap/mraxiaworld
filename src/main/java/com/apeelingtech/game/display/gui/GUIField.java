@@ -1,16 +1,17 @@
 package com.apeelingtech.game.display.gui;
 
+import com.apeelingtech.game.events.types.MousePressedEvent;
+import com.apeelingtech.game.events.types.MouseMovedEvent;
+import com.apeelingtech.game.events.types.KeyPressedEvent;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
-import com.apeelingtech.game.display.IKeyable;
-
-public class GUIField extends GUIElement implements IClickable, IKeyable {
+public class GUIField extends GUIElement {
 	
 	private boolean focus = false;
 	private int time;
@@ -64,33 +65,36 @@ public class GUIField extends GUIElement implements IClickable, IKeyable {
 	}
 	
 	@Override
-	public void addAction(ButtonAction buttonAction) {
-	}
-	
-	@Override
-	public void click(MouseEvent e) {
+	public boolean mousePressed(MousePressedEvent e) {
 		focus = true;
+		if (action != null) {
+			action.mousePressed(e);
+		}
+		return true;
 	}
 	
 	@Override
-	public void mouseEnter(MouseEvent e) {
+	public boolean mouseEntered(MouseMovedEvent e) {
 		focus = true;
+		if (action != null) {
+			action.mouseEntered(e);
+		}
+		return true;
 	}
 	
 	@Override
-	public void mouseExit(MouseEvent e) {
+	public boolean mouseExited(MouseMovedEvent e) {
 		focus = false;
+		if (action != null) {
+			action.mouseExited(e);
+		}
+		return true;
 	}
 	
 	@Override
-	public void keyTyped(KeyEvent e) {
-	}
-	
-	@Override
-	public void keyPressed(KeyEvent e) {
-		int keyCode = e.getKeyCode();
+	public boolean keyPressed(KeyPressedEvent e) {
 		if (focus) {
-			switch (keyCode) {
+			switch (e.getKeyCode()) {
 				case KeyEvent.VK_BACK_SPACE:
 					if (textLocation != 0) {
 						String newText = "";
@@ -160,7 +164,7 @@ public class GUIField extends GUIElement implements IClickable, IKeyable {
 					break;
 				default:
 					String newText3 = "";
-					char character = (char) keyCode;
+					char character = (char) e.getKeyCode();
 					if (text.length() == 0) {
 						text = character + "";
 						textLocation++;
@@ -183,9 +187,7 @@ public class GUIField extends GUIElement implements IClickable, IKeyable {
 					break;
 			}
 		}
-	}
-	
-	@Override
-	public void keyReleased(KeyEvent e) {
+
+		return true;
 	}
 }

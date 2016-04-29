@@ -7,9 +7,11 @@ import java.awt.event.MouseEvent;
 
 import com.apeelingtech.game.Game;
 import com.apeelingtech.game.display.Display;
-import com.apeelingtech.game.display.gui.ButtonAction;
+import com.apeelingtech.game.display.gui.ActionAdapter;
 import com.apeelingtech.game.display.gui.GUIButton;
 import com.apeelingtech.game.events.Event;
+import com.apeelingtech.game.events.types.MouseMovedEvent;
+import com.apeelingtech.game.events.types.MousePressedEvent;
 import com.apeelingtech.game.net.packets.Packet01Disconnect;
 import com.apeelingtech.game.layers.Layer;
 
@@ -31,12 +33,13 @@ public class Startstate extends GameState {
 	public void init() {
 		playButton = new GUIButton("Play!", "Times New Roman", Font.PLAIN, false, (Game.WIDTH * Game.SCALE - 50), (Game.HEIGHT * Game.SCALE / 2) - ((25 / 2) + buttonSpace), 90, 25);
 		playButton.setX((Game.WIDTH * Game.SCALE - 50) - playButton.getWidth());
-		playButton.setColors(new Color(0, 220, 0), new Color(0, 180, 0), new Color(0, 200, 0));
+		playButton.setColors(new Color(0, 220, 0), new Color(0, 180, 0), new Color(0, 200, 0),
+								new Color(0, 250, 0), new Color(0, 200, 0), new Color(0, 250, 0));
 		playButton.setOutline(0);
 		playButton.setRounded(15, 15);
-		playButton.addAction(new ButtonAction() {
+		playButton.addActionAdapter(new ActionAdapter() {
 			@Override
-			public void action(MouseEvent e) {
+			public boolean mousePressed(MousePressedEvent event) {
 				if (setupState == null) {
 					setupState = new SetupState(getGame(), display);
 					display.add(setupState);
@@ -48,57 +51,59 @@ public class Startstate extends GameState {
 						display.changeCurrentGameState(1);
 					}
 				}
+				return true;
 			}
-			
+
 			@Override
-			public void mouseEnter(MouseEvent e) {
-				playButton.setColors(new Color(0, 250, 0), new Color(0, 200, 0), new Color(0, 250, 0));
+			public boolean mouseEntered(MouseMovedEvent event) {
 				playButton.label = playButton.label + "  <--";
+				return true;
 			}
 			
 			@Override
-			public void mouseExit(MouseEvent e) {
-				playButton.setColors(new Color(0, 220, 0), new Color(0, 180, 0), new Color(0, 200, 0));
+			public boolean mouseExited(MouseMovedEvent event) {
 				if (playButton.label == "Continue Game  <--") {
 					playButton.label = "Continue Game";
 				} else {
 					playButton.label = "Play!";
 				}
+				return true;
 			}
 		});
 		
 		exitButton = new GUIButton("Exit", Game.WIDTH * Game.SCALE - 50, (Game.HEIGHT * Game.SCALE / 2) + ((25 / 2) + buttonSpace), playButton);
 		exitButton.setX((Game.WIDTH * Game.SCALE - 50) - exitButton.getWidth());
-		exitButton.setColors(new Color(220, 0, 0), new Color(180, 0, 0), new Color(200, 0, 0));
-		exitButton.addAction(new ButtonAction() {
+		exitButton.setColors(new Color(220, 0, 0), new Color(180, 0, 0), new Color(200, 0, 0),
+								new Color(250, 0, 0), new Color(200, 0, 0), new Color(250, 0, 0));
+		exitButton.addActionAdapter(new ActionAdapter() {
 			@Override
-			public void action(MouseEvent e) {
-				
+			public boolean mousePressed(MousePressedEvent event) {
 				try {
 					if (display.gameStates.get(2) != null) {
 						Packet01Disconnect packet = new Packet01Disconnect(((Gamescreen) display.gameStates.get(2)).player.getUsername());
 						packet.writeData(((Gamescreen) display.gameStates.get(2)).socketClient);
 					}
 				} catch (IndexOutOfBoundsException e2) {
-					e2.printStackTrace();
+					//e2.printStackTrace();
 				}
 				
 				getGame().frame.setVisible(false);
 				getGame().running = false;
 				getGame().frame.dispose();
 				System.exit(0);
+				return true;
 			}
 			
 			@Override
-			public void mouseEnter(MouseEvent e) {
-				exitButton.setColors(new Color(250, 0, 0), new Color(200, 0, 0), new Color(250, 0, 0));
+			public boolean mouseEntered(MouseMovedEvent event) {
 				exitButton.label = exitButton.label + "   <--";
+				return true;
 			}
 			
 			@Override
-			public void mouseExit(MouseEvent e) {
-				exitButton.setColors(new Color(220, 0, 0), new Color(180, 0, 0), new Color(200, 0, 0));
+			public boolean mouseExited(MouseMovedEvent event) {
 				exitButton.label = "Exit";
+				return true;
 			}
 		});
 		

@@ -1,23 +1,25 @@
 package com.apeelingtech.game.display.gui;
 
+import com.apeelingtech.game.events.types.MouseMovedEvent;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
-public class GUIButton extends GUIElement { // onClick
+public class GUIButton extends GUIElement {
 	public String label;
 	
 	@SuppressWarnings("unused")
 	private int charHeight, charWidth, fontSize, arcWidth, arcHeight, outlineWidth = 2;
 	private boolean isFramed;
 	private boolean isRounded;
+	private boolean isHovered;
 	private Font font;
-	private Color[] colors = { Color.gray, Color.lightGray, new Color(240, 240, 240) };
+	private Color[] colors = { Color.gray, Color.lightGray, new Color(240, 240, 240), // Regular colors
+								Color.lightGray, Color.white, new Color(255, 255, 255)}; // Hover colors
 	public Rectangle2D stringBounds;
-	public ButtonAction buttonAction;
 	
 	// TODO: Change button width to match width of text plus padding
 	public GUIButton(String label, boolean isFramed, int x, int y, int width, int height) {
@@ -65,25 +67,27 @@ public class GUIButton extends GUIElement { // onClick
 		
 		g2.dispose();
 	}
-	
-	public void addAction(ButtonAction buttonAction) {
-		this.buttonAction = buttonAction;
-	}
-	
-	public void click(MouseEvent e) {
-		buttonAction.action(e);
-	}
-	
-	public void mouseEnter(MouseEvent e) {
-		buttonAction.mouseEnter(e);
-	}
-	
-	public void mouseExit(MouseEvent e) {
-		buttonAction.mouseExit(e);
-	}
-	
+
 	@Override
-	public void render(Graphics2D g) {
+	public boolean mouseEntered(MouseMovedEvent event) {
+		isHovered = true;
+		if (action != null) {
+			action.mouseEntered(event);
+		}
+		return true; // TODO: false?
+	}
+
+	@Override
+	public boolean mouseExited(MouseMovedEvent event) {
+		isHovered = false;
+		if (action != null) {
+			action.mouseExited(event);
+		}
+		return true; // TODO: false?
+	}
+
+	@Override
+	public void render(Graphics2D g) { // TODO: when isHover == true, apply the hovering colors
 		if (isRounded) {
 			if (isFramed) {
 				if (outlineWidth > 0) {
@@ -110,10 +114,14 @@ public class GUIButton extends GUIElement { // onClick
 		g.drawString(label, x, y);
 	}
 	
-	public void setColors(Color bgColor, Color fgColor, Color txtColor) {
+	public void setColors(Color bgColor, Color fgColor, Color txtColor,
+							Color hoverBGColor, Color hoverFGColor, Color hoverTxtColor) {
 		colors[0] = bgColor;
 		colors[1] = fgColor;
 		colors[2] = txtColor;
+		colors[3] = hoverBGColor;
+		colors[4] = hoverFGColor;
+		colors[5] = hoverTxtColor;
 	}
 	
 	public void setOutline(int outlineWidth) {

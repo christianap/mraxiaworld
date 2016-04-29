@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import com.apeelingtech.game.Game;
 import com.apeelingtech.game.layers.Layer;
 import com.apeelingtech.game.display.Display;
-import com.apeelingtech.game.display.gui.GameGUI;
 import com.apeelingtech.game.entities.Player;
 import com.apeelingtech.game.entities.PlayerMP;
 import com.apeelingtech.game.level.Level;
@@ -59,7 +58,7 @@ public class Gamescreen extends GameState {
 		
 		level = new Level("/levels/water_test_level.png");
 		
-		player = new PlayerMP(level, 100, 100, (GameGUI) gui, username, null, -1, shirtColor.getColor(), skinColor.getSkinColor(), characterType);
+		player = new PlayerMP(level, this, 100, 100, username, null, -1, shirtColor.getColor(), skinColor.getSkinColor(), characterType);
 		level.addEntity(player);
 		if (!game.isApplet) {
 			Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.x, player.y, player.getShirtColor(), player.getSkinColor(), characterType);
@@ -94,22 +93,4 @@ public class Gamescreen extends GameState {
 		
 		level.tick();
 	}
-	
-	/*@Override
-	public void render(Graphics2D g) {
-		
-		int xOffset = player.x - (game.screen.width / 2);
-		int yOffset = player.y - (game.screen.height / 2);
-		
-		level.renderTiles(game.screen, xOffset, yOffset);
-		level.renderEntities(game.screen);
-		
-		for (int y = 0; y < game.screen.height; y++) {
-			for (int x = 0; x < game.screen.width; x++) {
-				int colourCode = game.screen.pixels[x + y * game.screen.width];
-				if (colourCode < 255) game.pixels[x + y * Game.WIDTH] = game.colours[colourCode];
-			}
-		}
-	}*/
-	
 }

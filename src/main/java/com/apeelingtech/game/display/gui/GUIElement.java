@@ -5,26 +5,85 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.apeelingtech.game.Game;
-import com.apeelingtech.game.events.EventListener;
 import com.apeelingtech.game.events.Event;
+import com.apeelingtech.game.events.types.*;
 
-public abstract class GUIElement implements EventListener {
+public abstract class GUIElement {
 	
-	protected Rectangle bounds;
+	public Rectangle bounds;
 	protected BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_3BYTE_BGR);
 	protected boolean hidden = false;
-	
+	protected boolean active = false;
+	protected ActionAdapter action;
+
 	public GUIElement(int x, int y, int width, int height) {
 		bounds = new Rectangle(x, y, width, height);
 	}
+
+	public void addActionAdapter(ActionAdapter action) {
+		this.action = action;
+	}
 	
+	public boolean mousePressed(MousePressedEvent event) {
+		if (action != null) {
+			action.mousePressed(event);
+		}
+		return false;
+    }
+
+    public boolean mouseReleased(MouseReleasedEvent event) {
+    	if (action != null) {
+			action.mouseReleased(event);
+		}
+    	return false;
+    }
+
+    public boolean mouseMoved(MouseMovedEvent event) {
+    	if (action != null) {
+			action.mouseMoved(event);
+		}
+        return false;
+    }
+
+    public boolean mouseEntered(MouseMovedEvent event) {
+    	if (action != null) {
+			action.mouseEntered(event);
+		}
+    	return false;
+    }
+
+    public boolean mouseExited(MouseMovedEvent event) {
+    	if (action != null) {
+			action.mouseExited(event);
+		}
+    	return false;
+    }
+
+    public boolean mouseWheelMoved(MouseWheelMovedEvent event) {
+    	if (action != null) {
+			action.mouseWheelMoved(event);
+		}
+    	return false;
+    }
+
+    public boolean keyPressed(KeyPressedEvent event) {
+    	if (action != null) {
+			action.keyPressed(event);
+		}
+    	return false;
+    }
+
+    public boolean keyReleased(KeyReleasedEvent event) {
+    	if (action != null) {
+			action.keyReleased(event);
+		}
+    	return false;
+    }
+
 	// TODO: Add tick() method???
 	
 	public abstract void render(Graphics2D g);
-	
-	public void onEvent(Event event) {
-	}
-	
+
 	public final boolean isHidden() {
 		return hidden;
 	}
@@ -69,18 +128,6 @@ public abstract class GUIElement implements EventListener {
 		this.bounds.height = height;
 	}
 	
-	public final Rectangle getBounds() {
-		return bounds;
-	}
-	
-	public final void setBounds(int x, int y, int width, int height) {
-		bounds.setBounds(x, y, width, height);
-	}
-	
-	public final void setBounds(Rectangle rect) {
-		bounds.setBounds(rect);
-	}
-	
 	public void setHorizontalCenter() {
 		setX(Game.HEIGHT * Game.SCALE / 2 - getWidth() / 2);
 	}
@@ -106,6 +153,18 @@ public abstract class GUIElement implements EventListener {
 		int[] result = { getHorizontalCenter(), getVerticalCenter() };
 		
 		return result;
+	}
+
+	public void setActive() {
+		active = true;
+	}
+
+	public void setNotActive() {
+		active = false;
+	}
+
+	public boolean isActive() {
+		return active;
 	}
 	
 }

@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 
 import com.apeelingtech.game.Game;
 import com.apeelingtech.game.display.Display;
-import com.apeelingtech.game.display.gui.GUI;
 import com.apeelingtech.game.events.EventListener;
 import com.apeelingtech.game.events.Event;
 import com.apeelingtech.game.layers.Layer;

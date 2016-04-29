@@ -23,10 +23,6 @@ public class GUIRect extends GUIElement {
 	}
 	
 	@Override
-	public void onEvent(Event event) {
-	}
-	
-	@Override
 	public void render(Graphics2D g) {
 		g.setColor(color);
 		if (!outline) {

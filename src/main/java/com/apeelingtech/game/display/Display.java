@@ -18,7 +18,6 @@ import com.apeelingtech.game.display.gamestates.Gamescreen;
 import com.apeelingtech.game.display.gamestates.Startstate;
 import com.apeelingtech.game.events.types.*; // Expand this
 import com.apeelingtech.game.events.Event;
-import com.apeelingtech.game.display.gui.GUI;
 
 public class Display {
 	
@@ -26,7 +25,7 @@ public class Display {
 	private Game game;
 	public GameState currentGameState;
 	private Startstate startState;
-	public int keys[]; // TODO
+	public boolean keys[];
 	
 	/**
 	 * Makes a new Display that is used to render Game States. This also creates a StartState and sets that as the current GameState to be shown when the game starts.
@@ -39,6 +38,7 @@ public class Display {
 		startState = new Startstate(game, this);
 		add(startState);
 		currentGameState = gameStates.get(0);
+		keys = new boolean[255];
 		
 		game.addMouseListener(new MouseAdapter() {
             @Override
@@ -75,12 +75,14 @@ public class Display {
 
             @Override
             public void keyPressed(KeyEvent e) {
+            	keys[e.getKeyCode()] = true;
                 KeyPressedEvent event = new KeyPressedEvent(e.getKeyCode());
                 onEvent(event);
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
+            	keys[e.getKeyCode()] = false;
                 KeyReleasedEvent event = new KeyReleasedEvent(e.getKeyCode());
                 onEvent(event);
             }
@@ -104,7 +106,6 @@ public class Display {
 	}
 	
 	public void onEvent(Event event) {
-		// call onEvent for currentState
 		currentGameState.onEvent(event);
 	}
 	
@@ -117,7 +118,6 @@ public class Display {
 		if (getCurrentGameState() instanceof Gamescreen) {
 			g.drawImage(game.image, 0, 0, game.getWidth(), game.getHeight(), null);
 		}
-		//currentGameState.getGUI().render(g); Replace with something else???
 	}
 	
 	public GameState getCurrentGameState() {
@@ -125,6 +125,10 @@ public class Display {
 	}
 	
 	public void setCurrentGameState(int index) {
+		if (index >= gameStates.size()) {
+			System.out.println("WARNING: Changing to non-existant game state.");
+			return;
+		}
 		currentGameState = gameStates.get(index);
 	}
 	

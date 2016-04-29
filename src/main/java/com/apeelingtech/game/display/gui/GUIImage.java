@@ -67,10 +67,6 @@ public class GUIImage extends GUIElement {
 	}
 	
 	@Override
-	public void onEvent(Event event) {
-	}
-	
-	@Override
 	public void render(Graphics2D g) {
 		g.drawImage(pic, getX(), getY(), getWidth(), getHeight(), null);
 	}

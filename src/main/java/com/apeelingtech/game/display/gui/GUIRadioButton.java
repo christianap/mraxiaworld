@@ -5,8 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import com.apeelingtech.game.events.Event;
-import com.apeelingtech.game.events.EventDispatcher;
 import com.apeelingtech.game.events.types.MousePressedEvent;
+import com.apeelingtech.game.events.types.MouseMovedEvent;
 
 public class GUIRadioButton extends GUIElement {
 	
@@ -15,7 +15,6 @@ public class GUIRadioButton extends GUIElement {
 	private boolean enabled = false;
 	private final int PADDING = 5;
 	private final int radioSize = 20;
-	public ButtonAction buttonAction;
 	
 	public GUIRadioButton(String text, Color color, int x, int y) {
 		super(x, y, 20, 20);
@@ -50,34 +49,13 @@ public class GUIRadioButton extends GUIElement {
 	}
 	
 	@Override
-	public void onEvent(Event event) {
-		EventDispatcher eventDispatcher = new EventDispatcher(event);
-		eventDispatcher.dispatch(Event.Type.MOUSE_PRESSED, (Event e) -> click((MousePressedEvent) e));
-		//eventDispatcher.dispatch(Event.Type.MOUSE_PRESSED, );
-	}
-	
-	public void addAction(ButtonAction buttonAction) {
-		this.buttonAction = buttonAction;
-	}
-	
-	public boolean click(MousePressedEvent e) {
+	public boolean mousePressed(MousePressedEvent e) {
 		enabled = true;
-		if (buttonAction != null) {
-			buttonAction.action(e); // Not correct type
+		if (action != null) {
+			action.mousePressed(e);
 		}
+		return true;
 	}
-	
-	/*public boolean mouseEnter(MouseMovedEvent e) {
-		if (buttonAction != null) {
-			this.buttonAction.mouseEnter(e);
-		}
-	}
-	
-	public boolean mouseExit(MouseEvent e) {
-		if (buttonAction != null) {
-			this.buttonAction.mouseExit(e);
-		}
-	}*/
 	
 	@Override
 	public void render(Graphics2D g) {
