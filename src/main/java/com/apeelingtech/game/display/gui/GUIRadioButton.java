@@ -42,10 +42,26 @@ public class GUIRadioButton extends GUIElement {
 	
 	public void enable() {
 		enabled = true;
+		if (action != null) {
+			((RadioActionAdapter) action).onEnable();
+		}
 	}
 	
 	public void disable() {
 		enabled = false;
+		if (action != null) {
+			((RadioActionAdapter) action).onDisable();
+		}
+	}
+	
+	@Override
+	public void addActionAdapter(ActionAdapter action) {
+		if (action instanceof RadioActionAdapter) {
+			this.action = action;
+		} else {
+			// Error!
+			System.out.println("You can only add a RadioActionAdapter to a radiobutton.");
+		}
 	}
 	
 	@Override

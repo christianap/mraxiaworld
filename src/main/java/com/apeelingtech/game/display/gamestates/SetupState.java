@@ -9,6 +9,7 @@ import com.apeelingtech.game.Game;
 import com.apeelingtech.game.display.Display;
 import com.apeelingtech.game.layers.Layer;
 import com.apeelingtech.game.display.gui.ActionAdapter;
+import com.apeelingtech.game.display.gui.RadioActionAdapter;
 import com.apeelingtech.game.display.gui.GUIButton;
 import com.apeelingtech.game.display.gui.GUIRadioButton;
 import com.apeelingtech.game.display.gui.GUIField;
@@ -208,7 +209,7 @@ public class SetupState extends GameState {
 		connectRadioButton = new GUIRadioButton("Connect to server", Color.CYAN, 300, 177);
 		GUIField ipAddress = new GUIField("IP Address", 300, 207, connectRadioButton.getWidth(), 30);
 		ipAddress.hide();
-		connectRadioButton.addActionAdapter(new ActionAdapter() {
+		connectRadioButton.addActionAdapter(new RadioActionAdapter() {
 			@Override
 			public boolean mousePressed(MousePressedEvent event) {
 				ipAddress.show();
@@ -216,8 +217,27 @@ public class SetupState extends GameState {
 				levelTitle.hide();
 				prevLevel.hide();
 				nextLevel.hide();
-				currentLevelFile = "/levels/water_test_level.png";
+				//currentLevelFile = "/levels/water_test_level.png";
 				return true;
+			}
+			
+			@Override
+			public void onEnable() {
+				ipAddress.show();
+				currentLevel.hide();
+				levelTitle.hide();
+				prevLevel.hide();
+				nextLevel.hide();
+				//currentLevelFile = "/levels/water_test_level.png";
+			}
+			
+			@Override
+			public void onDisable() {
+				ipAddress.hide();
+				currentLevel.show();
+				levelTitle.show();
+				prevLevel.show();
+				nextLevel.show();
 			}
 		});
 		gameplayTypeGroup = new GUIGroup("Gameplay Type", Color.CYAN, 22, 300, 100, connectRadioButton.getWidth(), 100, localRadioButton, serverRadioButton, connectRadioButton);
