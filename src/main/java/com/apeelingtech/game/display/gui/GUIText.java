@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 import com.apeelingtech.game.Game;
+import com.apeelingtech.game.events.Event;
 
 public class GUIText extends GUIElement {
 	

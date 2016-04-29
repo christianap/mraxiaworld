@@ -31,6 +31,7 @@ public class WindowHandler implements WindowListener {
 				packet.writeData(((Gamescreen) this.game.display.gameStates.get(2)).socketClient);
 			}
 		} catch (IndexOutOfBoundsException e) {
+		} catch (NullPointerException n) {
 		}
 	}
 	

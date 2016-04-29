@@ -17,7 +17,7 @@ import com.apeelingtech.game.net.packets.Packet02Move;
 import com.apeelingtech.game.net.packets.Packet.PacketTypes;
 
 public class GameServer extends Thread {
-	
+
 	private DatagramSocket socket;
 	private Gamescreen gameScreen;
 	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
@@ -55,7 +55,7 @@ public class GameServer extends Thread {
 			case LOGIN:
 				packet = new Packet00Login(data);
 				System.out.println("[" + address.getHostAddress() + ":" + port + "] " + ((Packet00Login) packet).getUsername() + " has connected...");
-				PlayerMP player = new PlayerMP(gameScreen.level, 100, 100, ((Packet00Login) packet).getUsername(), address, port, ((Packet00Login) packet).getShirtColor(), ((Packet00Login) packet).getSkinColor(), ((Packet00Login) packet).getCharacterType());
+				PlayerMP player = new PlayerMP(gameScreen, 100, 100, ((Packet00Login) packet).getUsername(), address, port, ((Packet00Login) packet).getShirtColor(), ((Packet00Login) packet).getSkinColor(), ((Packet00Login) packet).getCharacterType());
 				this.addConnection(player, (Packet00Login) packet);
 				break;
 			case DISCONNECT:

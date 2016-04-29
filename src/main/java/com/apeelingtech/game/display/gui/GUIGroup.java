@@ -1,8 +1,9 @@
 package com.apeelingtech.game.display.gui;
 
+import com.apeelingtech.game.events.types.MousePressedEvent;
+
 import java.awt.Graphics2D;
 import java.awt.Color;
-import java.awt.event.MouseEvent;
 
 /** A group allows you to group elements, especially if they are related, like radio buttons. The width and height
   *       of the group depends on the placement of the elements inside (However, this may be changed in the future).
@@ -13,7 +14,7 @@ import java.awt.event.MouseEvent;
   *
   * TODO: Bordering, Input Handling, Width and Height
   */
-public class GUIGroup extends GUIElement implements IClickable { // Make this GUIElement that handles its own elements with input and rendering
+public class GUIGroup extends GUIElement { // Make this GUIElement that handles its own elements with input and rendering
 	
 	protected GUIText title;
 	protected GUIRadioButton[] elements;
@@ -74,34 +75,22 @@ public class GUIGroup extends GUIElement implements IClickable { // Make this GU
 	}
 	
 	@Override
-	public void addAction(ButtonAction buttonAction) {
-	}
-	
-	@Override
-	public void click(MouseEvent e) {
+	public boolean mousePressed(MousePressedEvent e) { // TODO: add activeElement integer
 		for (int i = 0; i < elements.length; i++) {
 			if (elements[i].isHidden()) continue;
-			if (elements[i] instanceof GUIRadioButton) {
-				if (elements[i].bounds.contains(e.getPoint())) {
+			//if (elements[i] instanceof GUIRadioButton) {
+				if (elements[i].bounds.contains(e.getX(), e.getY())) {
 					enable(i);
-					((GUIRadioButton) elements[i]).click(e);
-					continue;
+					if (((GUIRadioButton) elements[i]).mousePressed(e)) return true;
 				}
-			}
-			if (elements[i] instanceof IClickable) {
-				if (elements[i].bounds.contains(e.getPoint())) {
-					((IClickable) elements[i]).click(e);
-				}
-			}
+			//}
 		}
-	}
-	
-	@Override
-	public void mouseEnter(MouseEvent e) {
-	}
-	
-	@Override
-	public void mouseExit(MouseEvent e) {
+
+		if (action != null) {
+			action.mousePressed(e);
+		}
+
+		return false;
 	}
 	
 	@Override

@@ -6,8 +6,8 @@ import java.awt.Graphics2D;
 import javax.swing.JOptionPane;
 
 import com.apeelingtech.game.Game;
+import com.apeelingtech.game.layers.Layer;
 import com.apeelingtech.game.display.Display;
-import com.apeelingtech.game.display.gui.GameGUI;
 import com.apeelingtech.game.entities.Player;
 import com.apeelingtech.game.entities.PlayerMP;
 import com.apeelingtech.game.level.Level;
@@ -31,14 +31,14 @@ public class Gamescreen extends GameState {
 	
 	private SetupState.CharacterColor shirtColor = SetupState.CharacterColor.DEFAULT;
 	private SetupState.CharacterSColor skinColor = SetupState.CharacterSColor.DEFAULT;
-	private byte characterType = 1;
 	private String username;
+	private byte characterType = 1;
 	private String ipAddress;
 	private GamePlayType type;
 	private String levelString;
 	
-	public Gamescreen(Game game, GameGUI gui, Display display, SetupState.CharacterColor shirtColor, SetupState.CharacterSColor skinColor, byte characterType, String username, GamePlayType type, String ipAddress, String levelString) {
-		super(game, Color.GREEN, gui, display);
+	public Gamescreen(Game game, Display display, SetupState.CharacterColor shirtColor, SetupState.CharacterSColor skinColor, byte characterType, String username, GamePlayType type, String ipAddress, String levelString) {
+		super(game, Color.GREEN, display);
 		this.shirtColor = shirtColor;
 		this.skinColor = skinColor;
 		this.characterType = characterType;
@@ -46,7 +46,6 @@ public class Gamescreen extends GameState {
 		this.type = type;
 		this.ipAddress = ipAddress;
 		this.levelString = levelString;
-		gui.addGameScreen(this);
 		init();
 	}
 	
@@ -75,7 +74,7 @@ public class Gamescreen extends GameState {
 		if (username == null || username == "") {
 			username = JOptionPane.showInputDialog("Please enter a username that is not blank", "");
 		}
-		player = new PlayerMP(level, 1, 1, (GameGUI) gui, username, null, -1, shirtColor.getColor(), skinColor.getSkinColor(), characterType);
+		player = new PlayerMP(this, 100, 100, username, null, -1, shirtColor.getColor(), skinColor.getSkinColor(), characterType);
 		level.addEntity(player);
 		if (!game.isApplet) {
 			Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.x, player.y, player.getShirtColor(), player.getSkinColor(), characterType);
@@ -84,39 +83,25 @@ public class Gamescreen extends GameState {
 			}
 			loginPacket.writeData(socketClient);
 		}
+		
+		layerList.add(new Layer((g) -> {
+			int xOffset = player.x - (game.screen.width / 2);
+			int yOffset = player.y - (game.screen.height / 2);
+			
+			level.renderTiles(game.screen, xOffset, yOffset);
+			level.renderEntities(game.screen);
+			
+			for (int y = 0; y < game.screen.height; y++) {
+				for (int x = 0; x < game.screen.width; x++) {
+					int colourCode = game.screen.pixels[x + y * game.screen.width];
+					if (colourCode < 255) game.pixels[x + y * Game.WIDTH] = game.colours[colourCode];
+				}
+			}
+		}));
 	}
 	
 	@Override
 	public void tick() {
-		// game.level.tick((int) game.sX, (int) game.sY, (Game.GAME_SIZE.width / Tile.tileSize) + 2, (Game.GAME_SIZE.height / Tile.tileSize) + 2);
-		// charactermp.tick();
-		// game.inventory.tick();
-		// gui.tick();
-		
 		level.tick();
 	}
-	
-	@Override
-	public void render(Graphics2D g) {
-		
-		int xOffset = player.x - (game.screen.width / 2);
-		int yOffset = player.y - (game.screen.height / 2);
-		
-		level.renderTiles(game.screen, xOffset, yOffset);
-		level.renderEntities(game.screen);
-		
-		for (int y = 0; y < game.screen.height; y++) {
-			for (int x = 0; x < game.screen.width; x++) {
-				int colourCode = game.screen.pixels[x + y * game.screen.width];
-				if (colourCode < 255)
-					game.pixels[x + y * Game.WIDTH] = game.colours[colourCode];
-			}
-		}
-	}
-	
-	@Override
-	public GameGUI getGUI() {
-		return (GameGUI) gui;
-	}
-	
 }

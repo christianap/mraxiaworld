@@ -1,16 +1,16 @@
 package com.apeelingtech.game.entities;
 
 import com.apeelingtech.game.display.gamestates.SetupState;
-import com.apeelingtech.game.display.gui.GameGUI;
+import com.apeelingtech.game.display.gamestates.Gamescreen;
 import com.apeelingtech.game.gfx.Colours;
 import com.apeelingtech.game.gfx.Font;
 import com.apeelingtech.game.gfx.Screen;
 import com.apeelingtech.game.level.Level;
 import com.apeelingtech.game.net.packets.Packet02Move;
+import java.awt.event.KeyEvent;
 
 public class Player extends Mob {
 	
-	private GameGUI input;
 	// -1, 111, 145, 543 - Default
 	// 550 - Yellow (3rd)
 	//
@@ -22,41 +22,40 @@ public class Player extends Mob {
 	private int shirtColor = SetupState.CharacterColor.DEFAULT.getColor();
 	private int skinColor = SetupState.CharacterSColor.DEFAULT.getSkinColor();
 	private byte characterType = 1;
+	private Gamescreen gameScreen; // Pass keys instead?
 	
-	public Player(Level level, int x, int y, GameGUI input, String username, int shirtColor, int skinColor, byte characterType) {
-		super(level, "Player", x, y, 1);
+	public Player(Gamescreen gameScreen, int x, int y, String username, int shirtColor, int skinColor, byte characterType) { // TODO: Change gui and input
+		super(gameScreen.level, "Player", x, y, 1);
 		this.shirtColor = shirtColor;
 		this.skinColor = skinColor;
 		this.characterType = characterType;
 		colour = Colours.get(-1, 111, shirtColor, skinColor);
-		this.input = input;
 		this.username = username;
+		this.gameScreen = gameScreen;
 	}
 	
 	public void tick() {
 		int xa = 0;
 		int ya = 0;
-		if (input != null) {
-			if (input.up.isPressed()) {
-				ya--;
-			}
-			if (input.down.isPressed()) {
-				ya++;
-			}
-			if (input.left.isPressed()) {
-				xa--;
-			}
-			if (input.right.isPressed()) {
-				xa++;
-			}
+
+		if (gameScreen.getDisplay().keys[KeyEvent.VK_UP]) {
+			ya--;
+		} else if (gameScreen.getDisplay().keys[KeyEvent.VK_DOWN]) {
+			ya++;
 		}
+		if (gameScreen.getDisplay().keys[KeyEvent.VK_LEFT]) {
+			xa--;
+		} else if (gameScreen.getDisplay().keys[KeyEvent.VK_RIGHT]) {
+			xa++;
+		}
+
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
 			isMoving = true;
 			
-			if (!input.gameScreen.getGame().isApplet) {
+			if (!gameScreen.getGame().isApplet) {
 				Packet02Move packet = new Packet02Move(this.getUsername(), this.x, this.y, this.numSteps, this.isMoving, this.movingDir);
-				packet.writeData(input.gameScreen.socketClient);
+				packet.writeData(gameScreen.socketClient);
 			}
 		} else {
 			isMoving = false;

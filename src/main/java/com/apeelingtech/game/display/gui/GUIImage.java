@@ -7,6 +7,8 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import com.apeelingtech.game.events.Event;
+
 public class GUIImage extends GUIElement {
 	
 	private URL path;
