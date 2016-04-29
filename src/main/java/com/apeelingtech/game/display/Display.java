@@ -15,9 +15,11 @@ import java.util.List;
 import com.apeelingtech.game.Game;
 import com.apeelingtech.game.display.gamestates.GameState;
 import com.apeelingtech.game.display.gamestates.Gamescreen;
+import com.apeelingtech.game.display.gamestates.Pausestate;
 import com.apeelingtech.game.display.gamestates.Startstate;
 import com.apeelingtech.game.events.types.*; // Expand this
 import com.apeelingtech.game.events.Event;
+import com.apeelingtech.game.events.EventDispatcher;
 
 public class Display {
 	
@@ -106,7 +108,25 @@ public class Display {
 	}
 	
 	public void onEvent(Event event) {
+		// Event Dispatcher for Display Related things!
+		EventDispatcher eventDispatcher = new EventDispatcher(event);
+		eventDispatcher.dispatch(Event.Type.KEY_PRESSED, (Event e) -> keyPressed((KeyPressedEvent) e));
 		currentGameState.onEvent(event);
+	}
+
+	public boolean keyPressed(KeyPressedEvent event) {
+		switch (event.getKeyCode()) {
+			case KeyEvent.VK_ESCAPE:
+				if (currentGameState instanceof Gamescreen) {
+					changeCurrentGameState(3); // Switch to Pausestate
+					return true;
+				} else if (currentGameState instanceof Pausestate) {
+					changeCurrentGameState(2); // Switch to Gamescreen State
+					return true;
+				}
+				break;
+		}
+		return false;
 	}
 	
 	public void render(Graphics2D g) {
