@@ -24,8 +24,8 @@ public class Player extends Mob {
 	private byte characterType = 1;
 	private Gamescreen gameScreen; // Pass keys instead?
 	
-	public Player(Level level, Gamescreen gameScreen, int x, int y, String username, int shirtColor, int skinColor, byte characterType) { // TODO: Change gui and input
-		super(level, "Player", x, y, 1);
+	public Player(Gamescreen gameScreen, int x, int y, String username, int shirtColor, int skinColor, byte characterType) { // TODO: Change gui and input
+		super(gameScreen.level, "Player", x, y, 1);
 		this.shirtColor = shirtColor;
 		this.skinColor = skinColor;
 		this.characterType = characterType;

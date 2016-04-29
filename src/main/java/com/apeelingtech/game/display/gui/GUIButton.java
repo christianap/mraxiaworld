@@ -83,7 +83,7 @@ public class GUIButton extends GUIElement {
 		if (action != null) {
 			action.mouseExited(event);
 		}
-		return true; // TODO: false?
+		return false;
 	}
 
 	@Override
@@ -92,22 +92,37 @@ public class GUIButton extends GUIElement {
 			if (isFramed) {
 				if (outlineWidth > 0) {
 					g.setColor(colors[1]);
+					if (isHovered) {
+						g.setColor(colors[4]);
+					}
 					g.fillRoundRect(bounds.x, bounds.y, bounds.width, bounds.height, arcWidth, arcHeight);
 				}
 				g.setColor(colors[0]);
+				if (isHovered) {
+					g.setColor(colors[3]);
+				}
 				g.fillRoundRect(bounds.x + outlineWidth, bounds.y + outlineWidth, bounds.width - (outlineWidth * 2), bounds.height - (outlineWidth * 2), arcWidth, arcHeight);
 			}
 		} else {
 			if (isFramed) {
 				if (outlineWidth > 0) {
 					g.setColor(colors[1]);
+					if (isHovered) {
+						g.setColor(colors[4]);
+					}
 					g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
 				}
 				g.setColor(colors[0]);
+				if (isHovered) {
+					g.setColor(colors[3]);
+				}
 				g.fillRect(bounds.x + outlineWidth, bounds.y + outlineWidth, bounds.width - (outlineWidth * 2), bounds.height - (outlineWidth * 2));
 			}
 		}
 		g.setColor(colors[2]);
+		if (isHovered) {
+			g.setColor(colors[5]);
+		}
 		g.setFont(font);
 		int x = bounds.x + ((bounds.width / 2) - (int) (stringBounds.getWidth() / 2));
 		int y = bounds.y + ((bounds.height / 2) + (int) (stringBounds.getHeight() / 3));

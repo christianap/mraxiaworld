@@ -34,9 +34,7 @@ public class Gamescreen extends GameState {
 		this.skinColor = skinColor;
 		this.characterType = characterType;
 		this.username = username;
-		//gui.addGameScreen(this);
 		init();
-		// display.changeCurrentGameState(1); // Change State to loadingState!
 	}
 	
 	public void init() {
@@ -58,7 +56,7 @@ public class Gamescreen extends GameState {
 		
 		level = new Level("/levels/water_test_level.png");
 		
-		player = new PlayerMP(level, this, 100, 100, username, null, -1, shirtColor.getColor(), skinColor.getSkinColor(), characterType);
+		player = new PlayerMP(this, 100, 100, username, null, -1, shirtColor.getColor(), skinColor.getSkinColor(), characterType);
 		level.addEntity(player);
 		if (!game.isApplet) {
 			Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.x, player.y, player.getShirtColor(), player.getSkinColor(), characterType);
@@ -86,11 +84,6 @@ public class Gamescreen extends GameState {
 	
 	@Override
 	public void tick() {
-		// game.level.tick((int) game.sX, (int) game.sY, (Game.GAME_SIZE.width / Tile.tileSize) + 2, (Game.GAME_SIZE.height / Tile.tileSize) + 2);
-		// charactermp.tick();
-		// game.inventory.tick();
-		// gui.tick();
-		
 		level.tick();
 	}
 }

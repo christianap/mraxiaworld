@@ -31,7 +31,6 @@ public abstract class GameState implements EventListener {
 	
 	public void tick() {
 		for (Layer layer : layerList) {
-			//layer.tick();
 		}
 	}
 	

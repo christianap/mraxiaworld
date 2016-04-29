@@ -94,9 +94,7 @@ public class SetupState extends GameState {
 	public void init() {
 		title = new GUIText("Setup Character and World", "Times New Roman", Font.BOLD, Color.CYAN, 100, 23, 25);
 		title.setHorizontalCenter();
-		//gui.add(title);
 		currentCharacter = new GUIImage(100, 100, 64, 64, "/C1Default.png"); // Animate this picture??? TODO
-		//gui.add(currentCharacter);
 		prevChar = new GUIButton("<", "Times New Roman", Font.BOLD, true, 50, 115, 30, 30);
 		prevChar.setColors(new Color(0, 0, 220), new Color(0, 0, 120), Color.CYAN,
 							new Color(0, 0, 250), new Color(0, 0, 140), Color.WHITE);
@@ -111,7 +109,6 @@ public class SetupState extends GameState {
 				return true;
 			}
 		});
-		//gui.add(prevChar);
 		nextChar = new GUIButton(">", "Times New Roman", Font.BOLD, true, 184, 115, 30, 30);
 		nextChar.setColors(new Color(0, 0, 220), new Color(0, 0, 120), Color.CYAN,
 							new Color(0, 0, 250), new Color(0, 0, 140), Color.WHITE);
@@ -126,7 +123,6 @@ public class SetupState extends GameState {
 				return true;
 			}
 		});
-		//gui.add(nextChar);
 		
 		// 3 Radio Buttons in group for whether starting server, connecting to server, or local play
 		localRadioButton = new GUIRadioButton("Local Gameplay", Color.CYAN, 300, 127);
@@ -134,7 +130,6 @@ public class SetupState extends GameState {
 		connectRadioButton = new GUIRadioButton("Connect to server", Color.CYAN, 300, 177);
 		GUIField ipAddress = new GUIField("IP Address", 300, 207, connectRadioButton.getWidth(), 30);
 		ipAddress.hide();
-		//gui.add(ipAddress); // TODO: Add ipAddress to group in future!
 		connectRadioButton.addActionAdapter(new ActionAdapter() {
 			@Override
 			public boolean mousePressed(MousePressedEvent event) {
@@ -144,7 +139,6 @@ public class SetupState extends GameState {
 		});
 		gameplayTypeGroup = new GUIGroup("Gameplay Type", Color.CYAN, 22, 300, 100, connectRadioButton.getWidth(), 100, localRadioButton, serverRadioButton, connectRadioButton);
 		gameplayTypeGroup.enable(0);
-		//gui.add(gameplayTypeGroup);
 		
 		backButton = new GUIButton("Back", "Times New Roman", Font.BOLD, true, 10, Game.HEIGHT * Game.SCALE - 40, 80, 30);
 		backButton.setColors(new Color(220, 0, 0), new Color(120, 0, 0), Color.CYAN,
@@ -157,8 +151,6 @@ public class SetupState extends GameState {
 				return true;
 			}
 		});
-		
-		//gui.add(backButton);
 		
 		playButton = new GUIButton("Play!", "Times New Roman", Font.BOLD, true, Game.WIDTH * Game.SCALE - 90, Game.HEIGHT * Game.SCALE - 40, 80, 30);
 		playButton.setColors(new Color(0, 220, 0), new Color(0, 120, 0), Color.CYAN,
@@ -179,9 +171,7 @@ public class SetupState extends GameState {
 				return true;
 			}
 		});
-		//gui.add(playButton);
 		shirtColorText = new GUIText("Blue", "Times New Roman", Font.BOLD, Color.cyan, 112, 206, 22);
-		//gui.add(shirtColorText);
 		
 		prevShirtColor = new GUIButton("<", "Times New Roman", Font.BOLD, true, 50, 184, 30, 30);
 		prevShirtColor.setColors(new Color(0, 0, 220), new Color(0, 0, 120), Color.CYAN,
@@ -201,7 +191,6 @@ public class SetupState extends GameState {
 				return true;
 			}
 		});
-		//gui.add(prevShirtColor);
 		nextShirtColor = new GUIButton(">", "Times New Roman", Font.BOLD, true, 184, 184, 30, 30);
 		nextShirtColor.setColors(new Color(0, 0, 220), new Color(0, 0, 120), Color.CYAN,
 									new Color(0, 0, 250), new Color(0, 0, 140), Color.WHITE);
@@ -220,10 +209,8 @@ public class SetupState extends GameState {
 				return true;
 			}
 		});
-		//gui.add(nextShirtColor);
 		
 		skinColorText = new GUIText("White", "Times New Roman", Font.BOLD, Color.cyan, 107, 246, 22);
-		//gui.add(skinColorText);
 		
 		prevSkinColor = new GUIButton("<", "Times New Roman", Font.BOLD, true, 50, 224, 30, 30);
 		prevSkinColor.setColors(new Color(0, 0, 220), new Color(0, 0, 120), Color.CYAN,
@@ -239,7 +226,6 @@ public class SetupState extends GameState {
 				return true;
 			}
 		});
-		//gui.add(prevSkinColor);
 		nextSkinColor = new GUIButton(">", "Times New Roman", Font.BOLD, true, 184, 224, 30, 30);
 		nextSkinColor.setColors(new Color(0, 0, 220), new Color(0, 0, 120), Color.CYAN,
 									new Color(0, 0, 250), new Color(0, 0, 140), Color.WHITE);
@@ -282,9 +268,5 @@ public class SetupState extends GameState {
 			skinColorText.setText("White");
 		}
 	}
-	
-	/*@Override
-	public void render(Graphics2D g) {
-	}*/
 	
 }
