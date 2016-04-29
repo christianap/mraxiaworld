@@ -85,6 +85,7 @@ public class SetupState extends GameState {
 	private String currentLevelFile = "/levels/water_test_level.png";
 	private GUIButton prevLevel;
 	private GUIButton nextLevel;
+	private GUIText levelTitle;
 	
 	private byte characterType = 1;
 	private CharacterColor shirtColor = CharacterColor.DEFAULT;
@@ -211,6 +212,11 @@ public class SetupState extends GameState {
 			@Override
 			public boolean mousePressed(MousePressedEvent event) {
 				ipAddress.show();
+				currentLevel.hide();
+				levelTitle.hide();
+				prevLevel.hide();
+				nextLevel.hide();
+				currentLevelFile = "/levels/water_test_level.png";
 				return true;
 			}
 		});
@@ -260,7 +266,7 @@ public class SetupState extends GameState {
 		});
 
 		// Level Settings
-		GUIText levelTitle = new GUIText("Choose a level", Color.CYAN, 300, 230, 22);
+		levelTitle = new GUIText("Choose a level", Color.CYAN, 300, 230, 22);
 		currentLevel = new GUIImage(335, 235, 75, 75, "/levels/water_test_level.png");
 		prevLevel = new GUIButton("<", "Times New Roman", Font.BOLD, true, 300, 240, 30, 30);
 		prevLevel.setColors(new Color(0, 0, 220), new Color(0, 0, 120), Color.CYAN,
